@@ -3,6 +3,9 @@
   <front>
     <journal-meta />
     <article-meta>
+        <title-group>
+            <article-title>The Linked Media Framework</article-title>
+        </title-group>
       <contrib-group />
       <abstract>
         <p>This article presents the Linked Media Framework (LMF), a platform for integrating and interlinking structured data and media content in enterprises and on the Web. The Linked Media Framework is based on the Linked Data principles, but extends these on two important aspects: resourcecentric updating and uniform management of resource content and metadata. Both aspects are important for enterprise information integration but not implemented by current Linked Data servers. In addition, the LMF oers the query language LD Path, a path-based language that allows intuitive resource-centric querying and traversal over distributed Linked Data resources and is thus more suitable for querying Linked Data than SPARQL. Finally, we describe two real-world scenarios where the LMF is already used or will be used for interlinking and semantic search: interlinking of multimedia fragments at the Red Bull Content Pool, and interlinking of news archive material at the Austrian Television.</p>

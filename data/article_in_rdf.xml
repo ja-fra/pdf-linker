@@ -1,1406 +1,1409 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:biro="http://purl.org/spar/biro/" xmlns:cito="http://purl.org/spar/cito/" xmlns:co="http://purl.org/co/" xmlns:datacite="http://purl.org/spar/datacite/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:deo="http://purl.org/spar/deo/" xmlns:dqm="http://purl.org/dqm-vocabulary/v1/dqm#" xmlns:fabio="http://purl.org/spar/fabio/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:frapo="http://purl.org/cerif/frapo/" xmlns:frbr="http://purl.org/vocab/frbr/core#" xmlns:literal="http://www.essepuntato.it/2010/06/literalreification/" xmlns:lmm="http://ontologydesignpatterns.org/ont/lmm/LMM_L2.owl" xmlns:mediatypes="http://purl.org/NET/mediatypes/" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:prism="http://prismstandard.org/namespaces/basic/2.0/" xmlns:pro="http://purl.org/spar/pro/" xmlns:prov="http://www.w3.org/ns/prov#" xmlns:pso="http://purl.org/spar/pso/" xmlns:pwo="http://purl.org/spar/pwo/" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:scoro="http://purl.org/spar/scoro/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:swanrel="http://purl.org/swan/2.0/discourse-relationships/" xmlns:swc="http://data.semanticweb.org/ns/swc/ontology#" xmlns:swrc="http://swrc.ontoware.org/ontology#" xmlns:trait="http://contextus.net/ontology/ontomedia/ext/common/trait#" xmlns:tvc="http://www.essepuntato.it/2012/04/tvc/" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xml:base="http://localhost:8080/resource/">
-   <rdf:Description rdf:about="textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="conceptual-work" />
-      <frbr:embodiment rdf:resource="digital-embodiment" />
-      <fabio:hasRepresentation rdf:resource="digital-item" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <frbr:partOf rdf:resource="journal-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="journal-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Journal" />
-      <frbr:realizationOf>
-         <rdf:Description>
-            <rdf:type rdf:resource="http://purl.org/spar/fabio/WorkCollection" />
-         </rdf:Description>
-      </frbr:realizationOf>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <swrc:abstract>This article presents the Linked Media Framework (LMF), a platform for integrating and interlinking structured data and media content in enterprises and on the Web. The Linked Media Framework is based on the Linked Data principles, but extends these on two important aspects: resourcecentric updating and uniform management of resource content and metadata. Both aspects are important for enterprise information integration but not implemented by current Linked Data servers. In addition, the LMF oers the query language LD Path, a path-based language that allows intuitive resource-centric querying and traversal over distributed Linked Data resources and is thus more suitable for querying Linked Data than SPARQL. Finally, we describe two real-world scenarios where the LMF is already used or will be used for interlinking and semantic search: interlinking of multimedia fragments at the Red Bull Content Pool, and interlinking of news archive material at the Austrian Television.</swrc:abstract>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <swrc:chapter rdf:resource="textual-entity#section-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity#section-1">
-      <dc:title>1. INTRODUCTION</dc:title>
-      <dc:description>Linked Data oers a big potential for enterprises in the
-media and knowledge management area. On the one hand,
-more and more datasets are published following Linked Data
-principles and thus give the opportunity to link enterprise
-content with background information and also allow
-disambiguation of concepts. No single enterprise would be capable
-of managing a standardised vocabulary the size of DBPedia
-or a location database the size of GeoNames. On the other
-hand, Linked Data can also oer a comparably simple
-solution for enterprise information integration inside companies.
-Permission to make digital or hard copies of all or part of this work for
-personal or classroom use is granted without fee provided that copies are
-not made or distributed for profit or commercial advantage and that copies
-bear this notice and the full citation on the first page. To copy otherwise, to
-republish, to post on servers or to redistribute to lists, requires prior specific
-permission and/or a fee.I-SEMANTICS 2012 , 8th Int. Conf. on Semantic Systems, Sept. 5-7, 2012,
-Graz, Austria
-Copyright 2012 ACM 978-1-4503-1112-0 ...$10.00.However, enterprises are still hesitating to use Linked
-Data in their value chains. From our experience with
-working with industry partners, one of the main barriers in the
-adoption of Linked Data is that the technology is still not
-easy enough to use and does not integrate well with existing
-information systems. Particularly, accessing data from the
-Linked Data Cloud is still cumbersome, and Linked Data
-has so far mostly been seen as a read-only and
-metadataonly source, while enterprise data usually is highly dynamic
-and involves both content and metadata. We are therefore
-focussing in this article on the following aspects:
-1. how to extend the Linked Data principles with
-RESTful principles for addition, modication, and deletion
-of resources
-2. how to extend the Linked Data principles by means to
-manage content and meta-data alike using MIME to
-URL mapping
-These issues are motivated by real-world scenarios that we
-are investigating at Salzburg NewMediaLab in the areas
-of enterprise integration and media asset management (see
-also Section 5). In both scenarios, resources typically
-describe media or document content (so-called information
-resources). So while most existing Linked Data services are
-only concerned about structured data, our scenarios require
-treatment of both content and metadata (e.g. the media
-assets stored in an asset management system and the
-metadata about these assets). And whereas in most existing cases
-publishing the datasets as Linked Data is a secondary
-service where the main data source is still a proprietary or
-non-standardised format (e.g. Wikipedia in the case of
-DBPedia), in our scenarios Linked Data is the primary means
-of publishing metadata. This immediately gives rise to the
-question how to update and interact with the Linked Data
-service in a resource-centred way beyond consuming.
-Besides the use cases we are working on, both extensions also
-give rise to new kinds of interactive Linked Data mashups.The main contributions of this article are rst a concrete
-and detailed proposal for the extension of the Linked Data
-principles for updates and for content access (Section 2),
-second the proposal of a path-based language for querying
-data on the Linked Data Cloud (Section 3), and third the
-implementation of a Linked Data server (called the \Linked
-Media Framework" or short \LMF") that implements and
-demonstrates these extensions (Section 4). Our approach is
-currently validated in several applications, two of which are
-described in Section 5. Section 6 compares our approach
-with related work.</dc:description>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <swrc:chapter rdf:resource="textual-entity#section-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity#section-2">
-      <dc:title>2. THE LINKED MEDIA PRINCIPLES</dc:title>
-      <dc:description>One of the core principles of Linked Data is that it builds
-strongly on the HTTP protocol for content negotiation and
-retrieval. As [7] describes, content negotiation in the Linked
-Data world works as follows:
-1. the client sends a HTTP GET request to a resource
-identied by a URI, together with an Accept: header
-of either application/rdf+xml or text/html
-2. based on the header, the server decides whether
-to send a human-readable (text/html) or
-machinereadable (application/rdf+xml) representation of the
-resource; it sends a response code of 303 See Other
-pointing to the respective resource representation
-3. the client performs a second HTTP GET request to
-the location pointed to by the server response
-4. the server responds with a 200 Ok response code and
-delivers the requested representation
-By applying this content negotiation, Linked Data remains
-compatible with existing Web browsers and standards. Our
-Linked Media Principles extend these Linked Data
-principles along two dimensions that are in principle independent
-from each other but both motivated through our
-application scenarios. The rst extension is concerned with Linked
-Data updates, while the second is concerned with managing
-media content and metadata alike.</dc:description>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <swrc:chapter rdf:resource="textual-entity#section-3" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity#section-3">
-      <dc:title>3. LDPATH: RESOURCE-CENTRIC</dc:title>
-      <dc:description>QUERYING OVER LINKED DATA
-Even though resources on Linked Data servers are typically
-interlinked and thus conceptually integrate data from many
-dierent sources, querying such data is still very
-cumbersome. The main reason is that existing query languages for
-RDF like SPARQL are rather dataset-centric and do not
-easily query over distributed or even unknown sources. There
-are currently three approaches to address this issue:
-a central index harvests the Web for RDF data and
-stores it in a central repository and oers it for
-querying, e.g. using SPARQL. This approach is followed e.g.
-by Sindice,4 which oers a public SPARQL endpoint.
-4http://sindice.com/
-The rst two approaches have obvious disadvantages: a
-central repository is not always recent and a single point of
-failure, while explicit federated queries are cumbersome to
-write and need exact information on how and where to access
-the SPARQL endpoint. They also require that all queried
-servers implement the SPARQL 1.1 Federation Extensions.
-The third approach is in our opinion not very user friendly,
-since the user cannot easily determine whether the results
-he will get are complete or not and important enterprise
-decisions might depend on that information.In this section, we therefore propose an alternative
-approach to querying Linked Data resources based on a path
-traversal following RDF links between Linked Data
-resources. Our approach is resource-centric and thus intuitive
-to users of Linked Data. It also does not need any specic
-extension beyond the Linked Data principles and the
-standard HTTP protocol: any existing Linked Data server can
-be queried without modication. The path language has
-originally been developed as a means to congure the LMF
-Semantic Search component, but we believe it is a valuable
-contribution in itself.RDF Path Language
-LDPath follows the same ideas and syntax as XPath 1.0 [14],
-but instead of XML elements it allows traversal over the
-conceptual RDF graph represented by interlinked Linked Data
-servers. In its core, LDPath is thus similar to the SPARQL</dc:description>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <swrc:chapter rdf:resource="textual-entity#section-4" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity#section-4">
-      <dc:title>4. IMPLEMENTATION: MEDIA FRAMEWORK THE</dc:title>
-      <dc:description />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <swrc:chapter rdf:resource="textual-entity#section-5" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity#section-5">
-      <dc:title>5. APPLICATION SCENARIOS</dc:title>
-      <dc:description>We are evaluating our technology in a number of
-application scenarios that are currently implemented together
-8http://www.w3.org/wiki/WebAccessControl
-9http://incubator.apache.org/stanbol/
-with partner companies. The aim of the Linked Media
-Framework is to integrate information in enterprises by
-using Linked Media. The rst scenario shows the interlinking
-of multimedia content with background information from
-the Linked Data Cloud, whereas the second scenario
-outlines the seamless integration of the technology with
-existing systems and the annotation of human-readable content
-with Linked Data concepts. In all applications, the Linked
-Media Framework is used for provisioning a semantic search
-service. Demonstrators of both scenarios are available at
-http://labs.newmedialab.at/.</dc:description>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <swrc:chapter rdf:resource="textual-entity#section-6" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity#section-6">
-      <dc:title>6. RELATED WORK</dc:title>
-      <dc:description>There have been some proposals for updating Linked Data
-and comparing and combining Linked Data with RESTful
-architectures, as well as for uniform access to content and
-data. In the following we summarise the most recent
-stateof-the-art and describe how our approach diers from it.
-Combining Linked Data and REST. The combination
-of Linked Data and REST is quite natural and has been
-implicitly present even in the original Linked Data
-principles proposed by Tim Berners-Lee [1]. Most articles are
-however concerned only with retrieval of resources, not with
-updating. The idea of also applying REST for updating has
-gained more interest only recently: [2] e.g. mentions an
-information resource modication mechanism based on REST,
-and [4] described an actual implementation of an approach
-called Rhizomer that is similar to ours, but the authors do
-not go into further detail. The article [10] provides a very
-interesting comparison of similarities and dierences between
-Linked Data and REST. Finally, the article [5] also describes
-the use of REST for updating Linked Data resources, albeit
-based on SPARQL Updates.From these approaches our proposal diers as follows: (1)
-it treats Linked Data updates in a way that is analogous to
-Linked Data retrieval ; (2) it provides a detailed and
-complete specication of the content negotiation and protocol,
-(3) it has been implemented and evaluated in real-world
-scenarios, and (4) it addresses both updates and uniform
-content and metadata management.Updating Linked Data. Most of the research on Linked
-Data so far is concerned with publishing and consuming
-Linked Data, and there are only few proposals on how to</dc:description>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <swrc:chapter rdf:resource="textual-entity#section-7" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity#section-7">
-      <dc:title>7. ACKNOWLEDGMENTS</dc:title>
-      <dc:description />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <swrc:chapter rdf:resource="textual-entity#section-8" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity#section-8">
-      <dc:title>8. REFERENCES</dc:title>
-      <dc:description />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <frbr:part rdf:resource="textual-entity-reference-list" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/ReferenceList" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-1">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-1">
-      <co:nextItem rdf:resource="reference-item-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-1">
-      <co:index>1</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-1">
-      <dcterms:bibliographicCitation>[1] T.Berners-Lee . Linked Data , 2006 .</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-1">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-1">
-      <biro:references rdf:resource="reference-1-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-1-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-1-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-1-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-1-conceptual-work">
-      <dcterms:creator rdf:resource="reference-1-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-1-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-1-agent-1">
-      <foaf:givenName>T.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-1-agent-1">
-      <foaf:familyName>Berners-Lee</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-1-textual-entity">
-      <dcterms:publisher rdf:resource="publisher-reference-1-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="publisher-reference-1-textual-entity">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Organization" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-1-textual-entity">
-      <foaf:name>Linked Data</foaf:name>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-1-textual-entity">
-      <fabio:hasPublicationYear>2006</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-2">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-2">
-      <co:nextItem rdf:resource="reference-item-3" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-2">
-      <co:index>2</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-2">
-      <dcterms:bibliographicCitation>[2] B.Ferris . A generalisation of the Linked Data publishing guideline (blog post ), 2011 .</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-2">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-2">
-      <biro:references rdf:resource="reference-2-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-2-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-2-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-2-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-2-conceptual-work">
-      <dcterms:creator rdf:resource="reference-2-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-2-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-2-agent-1">
-      <foaf:givenName>B.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-2-agent-1">
-      <foaf:familyName>Ferris</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-2-textual-entity">
-      <dcterms:title>A generalisation of the Linked Data publishing guideline (blog post</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-2-textual-entity">
-      <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-3" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-3">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-3" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-3">
-      <co:nextItem rdf:resource="reference-item-4" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-3">
-      <co:index>3</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-3">
-      <dcterms:bibliographicCitation>[3] R.Fielding . Architectural styles and the design of network-based software architectures . 2000 .</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-3">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-3">
-      <biro:references rdf:resource="reference-3-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-3-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-3-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-3-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-3-conceptual-work">
-      <dcterms:creator rdf:resource="reference-3-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-3-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-3-agent-1">
-      <foaf:givenName>R.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-3-agent-1">
-      <foaf:familyName>Fielding</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-3-textual-entity">
-      <dcterms:title>Architectural styles and the design of network-based software architectures</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-3-textual-entity">
-      <fabio:hasPublicationYear>2000</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-4" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-4">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-4" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-4">
-      <co:nextItem rdf:resource="reference-item-5" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-4">
-      <co:index>4</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4">
-      <dcterms:bibliographicCitation>[4] R.Garac , J. M.Brunetti , A.Lopez-Muazs , J. M.Gimeno , and R. Gil. Publishing and Interacting with Linked Data Categories and Subject Descriptors . In 1st Int. Conference on Web Intelligence , Mining and Semantics , WIMS?11, Sogndal, Norway , 2011 .</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4">
-      <biro:references rdf:resource="reference-4-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-4-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-4-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-conceptual-work">
-      <dcterms:creator rdf:resource="reference-4-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-agent-1">
-      <foaf:givenName>R.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-agent-1">
-      <foaf:familyName>Garac</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-conceptual-work">
-      <dcterms:creator rdf:resource="reference-4-agent-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-agent-2">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-agent-2">
-      <foaf:givenName>J. M.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-agent-2">
-      <foaf:familyName>Brunetti</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-conceptual-work">
-      <dcterms:creator rdf:resource="reference-4-agent-3" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-agent-3">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-agent-3">
-      <foaf:givenName>A.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-agent-3">
-      <foaf:familyName>Lopez-Muazs</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-conceptual-work">
-      <dcterms:creator rdf:resource="reference-4-agent-4" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-agent-4">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-agent-4">
-      <foaf:givenName>J. M.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-agent-4">
-      <foaf:familyName>Gimeno</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-textual-entity">
-      <dcterms:title>Publishing and Interacting with Linked Data Categories and Subject Descriptors</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-textual-entity">
-      <dcterms:title>Conference on Web Intelligence</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-textual-entity">
-      <dcterms:title>Mining and Semantics</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-textual-entity">
-      <tvc:hasValueInTime>
-         <rdf:Description>
-            <rdf:type rdf:resource="http://www.essepuntato.it/2012/04/tvc/ValueInTime" />
-            <tvc:withinContext rdf:resource="reference-4-textual-entity" />
-            <tvc:withValue>
-               <rdf:Description>
-                  <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#VCard" />
-                  <vcard:addr>
-                     <rdf:Description>
-                        <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#Address" />
-                        <vcard:locality>Sogndal, Norway</vcard:locality>
-                     </rdf:Description>
-                  </vcard:addr>
-               </rdf:Description>
-            </tvc:withValue>
-         </rdf:Description>
-      </tvc:hasValueInTime>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-4-textual-entity">
-      <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-5" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-5">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-5" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-5">
-      <co:nextItem rdf:resource="reference-item-6" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-5">
-      <co:index>5</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5">
-      <dcterms:bibliographicCitation>[5] A.Garrote and M.Moreno Garac . RESTful writable APIs for the web of Linked Data using relational storage solutions . In WWW2011 Workshop: Linked Data on the Web (LDOW2011) , Hyderabad, 2011 .</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5">
-      <biro:references rdf:resource="reference-5-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-5-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-5-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5-conceptual-work">
-      <dcterms:creator rdf:resource="reference-5-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5-agent-1">
-      <foaf:givenName>A.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5-agent-1">
-      <foaf:familyName>Garrote</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5-conceptual-work">
-      <dcterms:creator rdf:resource="reference-5-agent-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5-agent-2">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5-agent-2">
-      <foaf:givenName>M.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5-agent-2">
-      <foaf:familyName>Moreno Garac</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5-textual-entity">
-      <dcterms:title>RESTful writable APIs for the web of Linked Data using relational storage solutions</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5-textual-entity">
-      <dcterms:title>Linked Data on the Web (LDOW2011)</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-5-textual-entity">
-      <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-6" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-6">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-6" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-6">
-      <co:nextItem rdf:resource="reference-item-7" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-6">
-      <co:index>6</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6">
-      <dcterms:bibliographicCitation>[6] O.Hartig , C.Bizer , and J.-C. Freytag. Executing SPARQL Queries over the Web of Linked Data . In Proc. 8th International Semantic Web Conference (ESWC20099), Washington DC, USA , 2009 .</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6">
-      <biro:references rdf:resource="reference-6-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-6-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-6-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6-conceptual-work">
-      <dcterms:creator rdf:resource="reference-6-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6-agent-1">
-      <foaf:givenName>O.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6-agent-1">
-      <foaf:familyName>Hartig</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6-conceptual-work">
-      <dcterms:creator rdf:resource="reference-6-agent-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6-agent-2">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6-agent-2">
-      <foaf:givenName>C.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6-agent-2">
-      <foaf:familyName>Bizer</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6-textual-entity">
-      <dcterms:title>and J.-C. Freytag. Executing SPARQL Queries over the Web of Linked Data</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6-textual-entity">
-      <dcterms:publisher rdf:resource="publisher-reference-6-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="publisher-reference-6-textual-entity">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Organization" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6-textual-entity">
-      <foaf:name>USA</foaf:name>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-6-textual-entity">
-      <fabio:hasPublicationYear>2009</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-7" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-7">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-7" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-7">
-      <co:nextItem rdf:resource="reference-item-8" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-7">
-      <co:index>7</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7">
-      <dcterms:bibliographicCitation>[7] T.Heath and C.Bizer . Linked Data: Evolving the Web into a Global Data Space . Synthesis Lectures on the Semantic Web: Theory and Technology, 1 :1. Morgan &amp; Claypool , 1st edition, 2011 .</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7">
-      <biro:references rdf:resource="reference-7-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-7-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-7-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7-conceptual-work">
-      <dcterms:creator rdf:resource="reference-7-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7-agent-1">
-      <foaf:givenName>T.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7-agent-1">
-      <foaf:familyName>Heath</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7-conceptual-work">
-      <dcterms:creator rdf:resource="reference-7-agent-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7-agent-2">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7-agent-2">
-      <foaf:givenName>C.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7-agent-2">
-      <foaf:familyName>Bizer</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7-textual-entity">
-      <dcterms:title>Linked Data: Evolving the Web into a Global Data Space</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7-textual-entity">
-      <frbr:partOf rdf:resource="periodical-volume-reference-7-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="periodical-volume-reference-7-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/PeriodicalVolume" />
-      <prism:volume>1</prism:volume>
-      <frbr:partOf>
-         <rdf:Description>
-            <rdf:type rdf:resource="http://purl.org/spar/fabio/Periodical" />
-         </rdf:Description>
-      </frbr:partOf>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7-textual-entity">
-      <dcterms:publisher rdf:resource="publisher-reference-7-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="publisher-reference-7-textual-entity">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Organization" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7-textual-entity">
-      <foaf:name>Morgan &amp; Claypool</foaf:name>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-7-textual-entity">
-      <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-8" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-8">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-8" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-8">
-      <co:nextItem rdf:resource="reference-item-9" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-8">
-      <co:index>8</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8">
-      <dcterms:bibliographicCitation>[8] J.Kotowski and F.Bry . A Perfect Match for Reasoning , Explanation, and Reason Maintenance: OWL 2 RL and Semantic Wikis. Proc. of the 5th Semantic Wiki Workshop (SemWiki 2010 ) at ESWC 2010, 2010 .</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8">
-      <biro:references rdf:resource="reference-8-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-8-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-8-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8-conceptual-work">
-      <dcterms:creator rdf:resource="reference-8-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8-agent-1">
-      <foaf:givenName>J.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8-agent-1">
-      <foaf:familyName>Kotowski</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8-conceptual-work">
-      <dcterms:creator rdf:resource="reference-8-agent-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8-agent-2">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8-agent-2">
-      <foaf:givenName>F.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8-agent-2">
-      <foaf:familyName>Bry</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8-textual-entity">
-      <dcterms:title>A Perfect Match for Reasoning</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8-textual-entity">
-      <fabio:hasPublicationYear>2010</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-8-textual-entity">
-      <fabio:hasPublicationYear>2010</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-9" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-9">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-9" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-9">
-      <co:nextItem rdf:resource="reference-item-10" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-9">
-      <co:index>9</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9">
-      <dcterms:bibliographicCitation>[9] T.Kurz , S.Schaert , T. B urger , S. Stroka, and R. Sint. KiWi - A Platform for building Semantic Social Media Applications . In 9th Int. Semantic Web Conference (ISWC2010), 2010 .</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9">
-      <biro:references rdf:resource="reference-9-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-9-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-9-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9-conceptual-work">
-      <dcterms:creator rdf:resource="reference-9-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9-agent-1">
-      <foaf:givenName>T.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9-agent-1">
-      <foaf:familyName>Kurz</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9-conceptual-work">
-      <dcterms:creator rdf:resource="reference-9-agent-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9-agent-2">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9-agent-2">
-      <foaf:givenName>S.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9-agent-2">
-      <foaf:familyName>Schaert</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9-textual-entity">
-      <dcterms:title>T. B urger</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9-textual-entity">
-      <dcterms:title>KiWi - A Platform for building Semantic Social Media Applications</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-9-textual-entity">
-      <fabio:hasPublicationYear>2010</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-10" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-10">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-10" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-10">
-      <co:nextItem rdf:resource="reference-item-11" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-10">
-      <co:index>10</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10">
-      <dcterms:bibliographicCitation>[10] K. R.Page , D. C.De Roure , and K. Martinez. REST and Linked Data. ACM Press , New York , New York, USA, Mar . 2011 .</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10">
-      <biro:references rdf:resource="reference-10-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-10-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-10-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10-conceptual-work">
-      <dcterms:creator rdf:resource="reference-10-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10-agent-1">
-      <foaf:givenName>K. R.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10-agent-1">
-      <foaf:familyName>Page</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10-conceptual-work">
-      <dcterms:creator rdf:resource="reference-10-agent-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10-agent-2">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10-agent-2">
-      <foaf:givenName>D. C.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10-agent-2">
-      <foaf:familyName>De Roure</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10-textual-entity">
-      <dcterms:publisher rdf:resource="publisher-reference-10-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="publisher-reference-10-textual-entity">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Organization" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10-textual-entity">
-      <foaf:name>REST and Linked Data. ACM Press</foaf:name>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10-textual-entity">
-      <tvc:hasValueInTime>
-         <rdf:Description>
-            <rdf:type rdf:resource="http://www.essepuntato.it/2012/04/tvc/ValueInTime" />
-            <tvc:withinContext rdf:resource="reference-10-textual-entity" />
-            <tvc:withValue>
-               <rdf:Description>
-                  <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#VCard" />
-                  <vcard:addr>
-                     <rdf:Description>
-                        <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#Address" />
-                        <vcard:locality>New York</vcard:locality>
-                     </rdf:Description>
-                  </vcard:addr>
-               </rdf:Description>
-            </tvc:withValue>
-         </rdf:Description>
-      </tvc:hasValueInTime>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10-textual-entity">
-      <tvc:hasValueInTime>
-         <rdf:Description>
-            <rdf:type rdf:resource="http://www.essepuntato.it/2012/04/tvc/ValueInTime" />
-            <tvc:withinContext rdf:resource="reference-10-textual-entity" />
-            <tvc:withValue>
-               <rdf:Description>
-                  <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#VCard" />
-                  <vcard:addr>
-                     <rdf:Description>
-                        <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#Address" />
-                        <vcard:locality>New York, USA, Mar</vcard:locality>
-                     </rdf:Description>
-                  </vcard:addr>
-               </rdf:Description>
-            </tvc:withValue>
-         </rdf:Description>
-      </tvc:hasValueInTime>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-10-textual-entity">
-      <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-11" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-11">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-11" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-11">
-      <co:nextItem rdf:resource="reference-item-12" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-11">
-      <co:index>11</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11">
-      <dcterms:bibliographicCitation>[11] A.Passant and P. N.Mendes . sparqlPuSH : Proactive notication of data updates in RDF stores using PubSubHubbub . In Scripting for the Semantic Web Workshop SFSW2010 at ESWC2010 , 2010 .</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11">
-      <biro:references rdf:resource="reference-11-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-11-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-11-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11-conceptual-work">
-      <dcterms:creator rdf:resource="reference-11-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11-agent-1">
-      <foaf:givenName>A.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11-agent-1">
-      <foaf:familyName>Passant</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11-conceptual-work">
-      <dcterms:creator rdf:resource="reference-11-agent-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11-agent-2">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11-agent-2">
-      <foaf:givenName>P. N.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11-agent-2">
-      <foaf:familyName>Mendes</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11-textual-entity">
-      <dcterms:title>Proactive notication of data updates in RDF stores using PubSubHubbub</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11-textual-entity">
-      <frbr:embodiment rdf:resource="digital-embodiment-d1e382" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-11-textual-entity">
-      <fabio:hasPublicationYear>2010</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-12" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-12">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-12" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-12">
-      <co:nextItem rdf:resource="reference-item-13" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-12">
-      <co:index>12</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12">
-      <dcterms:bibliographicCitation>[12] S.Schaert , J.Eder , S.Gr unwald, T. Kurz , M.Radulescu , R.Sint , and S. Stroka. KiWi - A Platform for Semantic Social Software . In Proc. of the 4th Semantic Wiki Workshop (SemWiki 2009 ), at ESWC 2009, 2009 .</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12">
-      <biro:references rdf:resource="reference-12-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-12-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-12-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-conceptual-work">
-      <dcterms:creator rdf:resource="reference-12-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-1">
-      <foaf:givenName>S.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-1">
-      <foaf:familyName>Schaert</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-conceptual-work">
-      <dcterms:creator rdf:resource="reference-12-agent-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-2">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-2">
-      <foaf:givenName>J.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-2">
-      <foaf:familyName>Eder</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-conceptual-work">
-      <dcterms:creator rdf:resource="reference-12-agent-3" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-3">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-3">
-      <foaf:givenName>S.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-3">
-      <foaf:familyName>Gr</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-textual-entity-source">
-      <dcterms:title>T. Kurz</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-textual-entity">
-      <frbr:partOf rdf:resource="reference-12-textual-entity-source" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-conceptual-work">
-      <dcterms:creator rdf:resource="reference-12-agent-4" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-4">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-4">
-      <foaf:givenName>M.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-4">
-      <foaf:familyName>Radulescu</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-conceptual-work">
-      <dcterms:creator rdf:resource="reference-12-agent-5" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-5">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-5">
-      <foaf:givenName>R.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-agent-5">
-      <foaf:familyName>Sint</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-textual-entity">
-      <dcterms:title>KiWi - A Platform for Semantic Social Software</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-textual-entity">
-      <fabio:hasPublicationYear>2009</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-12-textual-entity">
-      <fabio:hasPublicationYear>2009</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-13" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-13">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-13" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-13">
-      <co:nextItem rdf:resource="reference-item-14" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-13">
-      <co:index>13</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-13">
-      <dcterms:bibliographicCitation>[13] J.Shinavier . Ripple: Functional programs as linked data . In 3rd Workshop on Scripting for the Semantic Web , Innsbruck, Austria , 2007 .</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-13">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-13">
-      <biro:references rdf:resource="reference-13-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-13-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-13-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-13-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-13-conceptual-work">
-      <dcterms:creator rdf:resource="reference-13-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-13-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-13-agent-1">
-      <foaf:givenName>J.</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-13-agent-1">
-      <foaf:familyName>Shinavier</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-13-textual-entity">
-      <dcterms:title>Functional programs as linked data</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-13-textual-entity">
-      <dcterms:title>Workshop on Scripting for the Semantic Web</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-13-textual-entity">
-      <tvc:hasValueInTime>
-         <rdf:Description>
-            <rdf:type rdf:resource="http://www.essepuntato.it/2012/04/tvc/ValueInTime" />
-            <tvc:withinContext rdf:resource="reference-13-textual-entity" />
-            <tvc:withValue>
-               <rdf:Description>
-                  <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#VCard" />
-                  <vcard:addr>
-                     <rdf:Description>
-                        <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#Address" />
-                        <vcard:locality>Innsbruck, Austria</vcard:locality>
-                     </rdf:Description>
-                  </vcard:addr>
-               </rdf:Description>
-            </tvc:withValue>
-         </rdf:Description>
-      </tvc:hasValueInTime>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-13-textual-entity">
-      <fabio:hasPublicationYear>2007</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-14" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-14">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-14" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-14">
-      <co:nextItem rdf:resource="reference-item-15" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-14">
-      <co:index>14</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-14">
-      <dcterms:bibliographicCitation>[14] W3 Consortium. XML Path Language (XPath) , November 1999 . http://www.w3.org/TR/xpath.</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-14">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-14">
-      <biro:references rdf:resource="reference-14-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-14-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-14-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-14-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-14-textual-entity">
-      <dcterms:title>W3 Consortium. XML Path Language (XPath)</dcterms:title>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-14-textual-entity">
-      <fabio:hasPublicationYear>1999</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-15" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-15">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-15" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-15">
-      <co:nextItem rdf:resource="reference-item-16" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-15">
-      <co:index>15</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-15">
-      <dcterms:bibliographicCitation>[15] W3Consortium . SPARQL 1.1 FederationExtensions (W3C Working Draft), June 2010 . http://www.w3.org/TR/sparql11-federated-query/.</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-15">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-15">
-      <biro:references rdf:resource="reference-15-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-15-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-15-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-15-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-15-conceptual-work">
-      <dcterms:creator rdf:resource="reference-15-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-15-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-15-agent-1">
-      <foaf:givenName>W3</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-15-agent-1">
-      <foaf:familyName>Consortium</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-15-conceptual-work">
-      <dcterms:creator rdf:resource="reference-15-agent-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-15-agent-2">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-15-agent-2">
-      <foaf:familyName>Federation</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-15-agent-2">
-      <foaf:givenName>Extensions</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-15-textual-entity">
-      <fabio:hasPublicationYear>2010</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-16" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-16">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-16" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-16">
-      <co:nextItem rdf:resource="reference-item-17" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-16">
-      <co:index>16</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-16">
-      <dcterms:bibliographicCitation>[16] W3Consortium . Media Fragments URI 1.0 (W3C Working Draft), March 2011 . http://www.w3.org/TR/media-frags/.</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-16">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-16">
-      <biro:references rdf:resource="reference-16-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-16-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-16-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-16-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-16-conceptual-work">
-      <dcterms:creator rdf:resource="reference-16-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-16-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-16-agent-1">
-      <foaf:givenName>W3</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-16-agent-1">
-      <foaf:familyName>Consortium</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-16-textual-entity">
-      <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-17" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-17">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-17" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-17">
-      <co:nextItem rdf:resource="reference-item-18" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-17">
-      <co:index>17</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-17">
-      <dcterms:bibliographicCitation>[17] W3Consortium . Ontology for Media Resources 1.0 (W3C Candidate Recommendation), July 2011 . http://www.w3.org/TR/mediaont- 10 /.</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-17">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-17">
-      <biro:references rdf:resource="reference-17-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-17-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-17-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-17-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-17-conceptual-work">
-      <dcterms:creator rdf:resource="reference-17-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-17-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-17-agent-1">
-      <foaf:givenName>W3</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-17-agent-1">
-      <foaf:familyName>Consortium</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-17-textual-entity">
-      <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-17-textual-entity">
-      <frbr:embodiment rdf:resource="digital-embodiment-d1e513" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity-reference-list">
-      <co:item rdf:resource="reference-item-18" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-18">
-      <rdf:type rdf:resource="http://purl.org/co/ListItem" />
-      <co:itemContent rdf:resource="reference-18" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-item-18">
-      <co:index>18</co:index>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-18">
-      <dcterms:bibliographicCitation>[18] W3Consortium . SPARQL 1.1 Query (W3C Working Draft), May 2011 . http://www.w3.org/TR/sparql11-query/.</dcterms:bibliographicCitation>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-18">
-      <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-18">
-      <biro:references rdf:resource="reference-18-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="textual-entity">
-      <cito:cites rdf:resource="reference-18-textual-entity" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-18-textual-entity">
-      <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
-      <frbr:realizationOf rdf:resource="reference-18-conceptual-work" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-18-conceptual-work">
-      <dcterms:creator rdf:resource="reference-18-agent-1" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-18-agent-1">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-18-agent-1">
-      <foaf:givenName>W3</foaf:givenName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-18-agent-1">
-      <foaf:familyName>Consortium</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-18-conceptual-work">
-      <dcterms:creator rdf:resource="reference-18-agent-2" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-18-agent-2">
-      <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-18-agent-2">
-      <foaf:familyName>Query</foaf:familyName>
-   </rdf:Description>
-   <rdf:Description rdf:about="reference-18-textual-entity">
-      <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
-   </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="conceptual-work" />
+        <frbr:embodiment rdf:resource="digital-embodiment" />
+        <fabio:hasRepresentation rdf:resource="digital-item" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <frbr:partOf rdf:resource="journal-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="journal-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Journal" />
+        <frbr:realizationOf>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://purl.org/spar/fabio/WorkCollection" />
+            </rdf:Description>
+        </frbr:realizationOf>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <dcterms:title>The Linked Media Framework</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <swrc:abstract>This article presents the Linked Media Framework (LMF), a platform for integrating and interlinking structured data and media content in enterprises and on the Web. The Linked Media Framework is based on the Linked Data principles, but extends these on two important aspects: resourcecentric updating and uniform management of resource content and metadata. Both aspects are important for enterprise information integration but not implemented by current Linked Data servers. In addition, the LMF oers the query language LD Path, a path-based language that allows intuitive resource-centric querying and traversal over distributed Linked Data resources and is thus more suitable for querying Linked Data than SPARQL. Finally, we describe two real-world scenarios where the LMF is already used or will be used for interlinking and semantic search: interlinking of multimedia fragments at the Red Bull Content Pool, and interlinking of news archive material at the Austrian Television.</swrc:abstract>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <swrc:chapter rdf:resource="textual-entity#section-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity#section-1">
+        <dc:title>1. INTRODUCTION</dc:title>
+        <dc:description>Linked Data oers a big potential for enterprises in the
+            media and knowledge management area. On the one hand,
+            more and more datasets are published following Linked Data
+            principles and thus give the opportunity to link enterprise
+            content with background information and also allow
+            disambiguation of concepts. No single enterprise would be capable
+            of managing a standardised vocabulary the size of DBPedia
+            or a location database the size of GeoNames. On the other
+            hand, Linked Data can also oer a comparably simple
+            solution for enterprise information integration inside companies.
+            Permission to make digital or hard copies of all or part of this work for
+            personal or classroom use is granted without fee provided that copies are
+            not made or distributed for profit or commercial advantage and that copies
+            bear this notice and the full citation on the first page. To copy otherwise, to
+            republish, to post on servers or to redistribute to lists, requires prior specific
+            permission and/or a fee.I-SEMANTICS 2012 , 8th Int. Conf. on Semantic Systems, Sept. 5-7, 2012,
+            Graz, Austria
+            Copyright 2012 ACM 978-1-4503-1112-0 ...$10.00.However, enterprises are still hesitating to use Linked
+            Data in their value chains. From our experience with
+            working with industry partners, one of the main barriers in the
+            adoption of Linked Data is that the technology is still not
+            easy enough to use and does not integrate well with existing
+            information systems. Particularly, accessing data from the
+            Linked Data Cloud is still cumbersome, and Linked Data
+            has so far mostly been seen as a read-only and
+            metadataonly source, while enterprise data usually is highly dynamic
+            and involves both content and metadata. We are therefore
+            focussing in this article on the following aspects:
+            1. how to extend the Linked Data principles with
+            RESTful principles for addition, modication, and deletion
+            of resources
+            2. how to extend the Linked Data principles by means to
+            manage content and meta-data alike using MIME to
+            URL mapping
+            These issues are motivated by real-world scenarios that we
+            are investigating at Salzburg NewMediaLab in the areas
+            of enterprise integration and media asset management (see
+            also Section 5). In both scenarios, resources typically
+            describe media or document content (so-called information
+            resources). So while most existing Linked Data services are
+            only concerned about structured data, our scenarios require
+            treatment of both content and metadata (e.g. the media
+            assets stored in an asset management system and the
+            metadata about these assets). And whereas in most existing cases
+            publishing the datasets as Linked Data is a secondary
+            service where the main data source is still a proprietary or
+            non-standardised format (e.g. Wikipedia in the case of
+            DBPedia), in our scenarios Linked Data is the primary means
+            of publishing metadata. This immediately gives rise to the
+            question how to update and interact with the Linked Data
+            service in a resource-centred way beyond consuming.
+            Besides the use cases we are working on, both extensions also
+            give rise to new kinds of interactive Linked Data mashups.The main contributions of this article are rst a concrete
+            and detailed proposal for the extension of the Linked Data
+            principles for updates and for content access (Section 2),
+            second the proposal of a path-based language for querying
+            data on the Linked Data Cloud (Section 3), and third the
+            implementation of a Linked Data server (called the \Linked
+            Media Framework" or short \LMF") that implements and
+            demonstrates these extensions (Section 4). Our approach is
+            currently validated in several applications, two of which are
+            described in Section 5. Section 6 compares our approach
+            with related work.</dc:description>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <swrc:chapter rdf:resource="textual-entity#section-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity#section-2">
+        <dc:title>2. THE LINKED MEDIA PRINCIPLES</dc:title>
+        <dc:description>One of the core principles of Linked Data is that it builds
+            strongly on the HTTP protocol for content negotiation and
+            retrieval. As [7] describes, content negotiation in the Linked
+            Data world works as follows:
+            1. the client sends a HTTP GET request to a resource
+            identied by a URI, together with an Accept: header
+            of either application/rdf+xml or text/html
+            2. based on the header, the server decides whether
+            to send a human-readable (text/html) or
+            machinereadable (application/rdf+xml) representation of the
+            resource; it sends a response code of 303 See Other
+            pointing to the respective resource representation
+            3. the client performs a second HTTP GET request to
+            the location pointed to by the server response
+            4. the server responds with a 200 Ok response code and
+            delivers the requested representation
+            By applying this content negotiation, Linked Data remains
+            compatible with existing Web browsers and standards. Our
+            Linked Media Principles extend these Linked Data
+            principles along two dimensions that are in principle independent
+            from each other but both motivated through our
+            application scenarios. The rst extension is concerned with Linked
+            Data updates, while the second is concerned with managing
+            media content and metadata alike.</dc:description>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <swrc:chapter rdf:resource="textual-entity#section-3" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity#section-3">
+        <dc:title>3. LDPATH: RESOURCE-CENTRIC</dc:title>
+        <dc:description>QUERYING OVER LINKED DATA
+            Even though resources on Linked Data servers are typically
+            interlinked and thus conceptually integrate data from many
+            dierent sources, querying such data is still very
+            cumbersome. The main reason is that existing query languages for
+            RDF like SPARQL are rather dataset-centric and do not
+            easily query over distributed or even unknown sources. There
+            are currently three approaches to address this issue:
+            a central index harvests the Web for RDF data and
+            stores it in a central repository and oers it for
+            querying, e.g. using SPARQL. This approach is followed e.g.
+            by Sindice,4 which oers a public SPARQL endpoint.
+            4http://sindice.com/
+            The rst two approaches have obvious disadvantages: a
+            central repository is not always recent and a single point of
+            failure, while explicit federated queries are cumbersome to
+            write and need exact information on how and where to access
+            the SPARQL endpoint. They also require that all queried
+            servers implement the SPARQL 1.1 Federation Extensions.
+            The third approach is in our opinion not very user friendly,
+            since the user cannot easily determine whether the results
+            he will get are complete or not and important enterprise
+            decisions might depend on that information.In this section, we therefore propose an alternative
+            approach to querying Linked Data resources based on a path
+            traversal following RDF links between Linked Data
+            resources. Our approach is resource-centric and thus intuitive
+            to users of Linked Data. It also does not need any specic
+            extension beyond the Linked Data principles and the
+            standard HTTP protocol: any existing Linked Data server can
+            be queried without modication. The path language has
+            originally been developed as a means to congure the LMF
+            Semantic Search component, but we believe it is a valuable
+            contribution in itself.RDF Path Language
+            LDPath follows the same ideas and syntax as XPath 1.0 [14],
+            but instead of XML elements it allows traversal over the
+            conceptual RDF graph represented by interlinked Linked Data
+            servers. In its core, LDPath is thus similar to the SPARQL</dc:description>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <swrc:chapter rdf:resource="textual-entity#section-4" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity#section-4">
+        <dc:title>4. IMPLEMENTATION: MEDIA FRAMEWORK THE</dc:title>
+        <dc:description />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <swrc:chapter rdf:resource="textual-entity#section-5" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity#section-5">
+        <dc:title>5. APPLICATION SCENARIOS</dc:title>
+        <dc:description>We are evaluating our technology in a number of
+            application scenarios that are currently implemented together
+            8http://www.w3.org/wiki/WebAccessControl
+            9http://incubator.apache.org/stanbol/
+            with partner companies. The aim of the Linked Media
+            Framework is to integrate information in enterprises by
+            using Linked Media. The rst scenario shows the interlinking
+            of multimedia content with background information from
+            the Linked Data Cloud, whereas the second scenario
+            outlines the seamless integration of the technology with
+            existing systems and the annotation of human-readable content
+            with Linked Data concepts. In all applications, the Linked
+            Media Framework is used for provisioning a semantic search
+            service. Demonstrators of both scenarios are available at
+            http://labs.newmedialab.at/.</dc:description>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <swrc:chapter rdf:resource="textual-entity#section-6" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity#section-6">
+        <dc:title>6. RELATED WORK</dc:title>
+        <dc:description>There have been some proposals for updating Linked Data
+            and comparing and combining Linked Data with RESTful
+            architectures, as well as for uniform access to content and
+            data. In the following we summarise the most recent
+            stateof-the-art and describe how our approach diers from it.
+            Combining Linked Data and REST. The combination
+            of Linked Data and REST is quite natural and has been
+            implicitly present even in the original Linked Data
+            principles proposed by Tim Berners-Lee [1]. Most articles are
+            however concerned only with retrieval of resources, not with
+            updating. The idea of also applying REST for updating has
+            gained more interest only recently: [2] e.g. mentions an
+            information resource modication mechanism based on REST,
+            and [4] described an actual implementation of an approach
+            called Rhizomer that is similar to ours, but the authors do
+            not go into further detail. The article [10] provides a very
+            interesting comparison of similarities and dierences between
+            Linked Data and REST. Finally, the article [5] also describes
+            the use of REST for updating Linked Data resources, albeit
+            based on SPARQL Updates.From these approaches our proposal diers as follows: (1)
+            it treats Linked Data updates in a way that is analogous to
+            Linked Data retrieval ; (2) it provides a detailed and
+            complete specication of the content negotiation and protocol,
+            (3) it has been implemented and evaluated in real-world
+            scenarios, and (4) it addresses both updates and uniform
+            content and metadata management.Updating Linked Data. Most of the research on Linked
+            Data so far is concerned with publishing and consuming
+            Linked Data, and there are only few proposals on how to</dc:description>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <swrc:chapter rdf:resource="textual-entity#section-7" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity#section-7">
+        <dc:title>7. ACKNOWLEDGMENTS</dc:title>
+        <dc:description />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <swrc:chapter rdf:resource="textual-entity#section-8" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity#section-8">
+        <dc:title>8. REFERENCES</dc:title>
+        <dc:description />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <frbr:part rdf:resource="textual-entity-reference-list" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/ReferenceList" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-1">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-1">
+        <co:nextItem rdf:resource="reference-item-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-1">
+        <co:index>1</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-1">
+        <dcterms:bibliographicCitation>[1] T.Berners-Lee . Linked Data , 2006 .</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-1">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-1">
+        <biro:references rdf:resource="reference-1-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-1-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-1-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-1-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-1-conceptual-work">
+        <dcterms:creator rdf:resource="reference-1-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-1-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-1-agent-1">
+        <foaf:givenName>T.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-1-agent-1">
+        <foaf:familyName>Berners-Lee</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-1-textual-entity">
+        <dcterms:publisher rdf:resource="publisher-reference-1-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="publisher-reference-1-textual-entity">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Organization" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-1-textual-entity">
+        <foaf:name>Linked Data</foaf:name>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-1-textual-entity">
+        <fabio:hasPublicationYear>2006</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-2">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-2">
+        <co:nextItem rdf:resource="reference-item-3" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-2">
+        <co:index>2</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-2">
+        <dcterms:bibliographicCitation>[2] B.Ferris . A generalisation of the Linked Data publishing guideline (blog post ), 2011 .</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-2">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-2">
+        <biro:references rdf:resource="reference-2-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-2-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-2-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-2-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-2-conceptual-work">
+        <dcterms:creator rdf:resource="reference-2-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-2-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-2-agent-1">
+        <foaf:givenName>B.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-2-agent-1">
+        <foaf:familyName>Ferris</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-2-textual-entity">
+        <dcterms:title>A generalisation of the Linked Data publishing guideline (blog post</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-2-textual-entity">
+        <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-3" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-3">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-3" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-3">
+        <co:nextItem rdf:resource="reference-item-4" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-3">
+        <co:index>3</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-3">
+        <dcterms:bibliographicCitation>[3] R.Fielding . Architectural styles and the design of network-based software architectures . 2000 .</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-3">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-3">
+        <biro:references rdf:resource="reference-3-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-3-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-3-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-3-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-3-conceptual-work">
+        <dcterms:creator rdf:resource="reference-3-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-3-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-3-agent-1">
+        <foaf:givenName>R.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-3-agent-1">
+        <foaf:familyName>Fielding</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-3-textual-entity">
+        <dcterms:title>Architectural styles and the design of network-based software architectures</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-3-textual-entity">
+        <fabio:hasPublicationYear>2000</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-4" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-4">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-4" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-4">
+        <co:nextItem rdf:resource="reference-item-5" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-4">
+        <co:index>4</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4">
+        <dcterms:bibliographicCitation>[4] R.Garac , J. M.Brunetti , A.Lopez-Muazs , J. M.Gimeno , and R. Gil. Publishing and Interacting with Linked Data Categories and Subject Descriptors . In 1st Int. Conference on Web Intelligence , Mining and Semantics , WIMS?11, Sogndal, Norway , 2011 .</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4">
+        <biro:references rdf:resource="reference-4-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-4-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-4-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-conceptual-work">
+        <dcterms:creator rdf:resource="reference-4-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-agent-1">
+        <foaf:givenName>R.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-agent-1">
+        <foaf:familyName>Garac</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-conceptual-work">
+        <dcterms:creator rdf:resource="reference-4-agent-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-agent-2">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-agent-2">
+        <foaf:givenName>J. M.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-agent-2">
+        <foaf:familyName>Brunetti</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-conceptual-work">
+        <dcterms:creator rdf:resource="reference-4-agent-3" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-agent-3">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-agent-3">
+        <foaf:givenName>A.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-agent-3">
+        <foaf:familyName>Lopez-Muazs</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-conceptual-work">
+        <dcterms:creator rdf:resource="reference-4-agent-4" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-agent-4">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-agent-4">
+        <foaf:givenName>J. M.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-agent-4">
+        <foaf:familyName>Gimeno</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-textual-entity">
+        <dcterms:title>Publishing and Interacting with Linked Data Categories and Subject Descriptors</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-textual-entity">
+        <dcterms:title>Conference on Web Intelligence</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-textual-entity">
+        <dcterms:title>Mining and Semantics</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-textual-entity">
+        <tvc:hasValueInTime>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.essepuntato.it/2012/04/tvc/ValueInTime" />
+                <tvc:withinContext rdf:resource="reference-4-textual-entity" />
+                <tvc:withValue>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#VCard" />
+                        <vcard:addr>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#Address" />
+                                <vcard:locality>Sogndal, Norway</vcard:locality>
+                            </rdf:Description>
+                        </vcard:addr>
+                    </rdf:Description>
+                </tvc:withValue>
+            </rdf:Description>
+        </tvc:hasValueInTime>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-4-textual-entity">
+        <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-5" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-5">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-5" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-5">
+        <co:nextItem rdf:resource="reference-item-6" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-5">
+        <co:index>5</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5">
+        <dcterms:bibliographicCitation>[5] A.Garrote and M.Moreno Garac . RESTful writable APIs for the web of Linked Data using relational storage solutions . In WWW2011 Workshop: Linked Data on the Web (LDOW2011) , Hyderabad, 2011 .</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5">
+        <biro:references rdf:resource="reference-5-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-5-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-5-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5-conceptual-work">
+        <dcterms:creator rdf:resource="reference-5-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5-agent-1">
+        <foaf:givenName>A.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5-agent-1">
+        <foaf:familyName>Garrote</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5-conceptual-work">
+        <dcterms:creator rdf:resource="reference-5-agent-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5-agent-2">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5-agent-2">
+        <foaf:givenName>M.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5-agent-2">
+        <foaf:familyName>Moreno Garac</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5-textual-entity">
+        <dcterms:title>RESTful writable APIs for the web of Linked Data using relational storage solutions</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5-textual-entity">
+        <dcterms:title>Linked Data on the Web (LDOW2011)</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-5-textual-entity">
+        <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-6" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-6">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-6" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-6">
+        <co:nextItem rdf:resource="reference-item-7" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-6">
+        <co:index>6</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6">
+        <dcterms:bibliographicCitation>[6] O.Hartig , C.Bizer , and J.-C. Freytag. Executing SPARQL Queries over the Web of Linked Data . In Proc. 8th International Semantic Web Conference (ESWC20099), Washington DC, USA , 2009 .</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6">
+        <biro:references rdf:resource="reference-6-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-6-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-6-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6-conceptual-work">
+        <dcterms:creator rdf:resource="reference-6-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6-agent-1">
+        <foaf:givenName>O.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6-agent-1">
+        <foaf:familyName>Hartig</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6-conceptual-work">
+        <dcterms:creator rdf:resource="reference-6-agent-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6-agent-2">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6-agent-2">
+        <foaf:givenName>C.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6-agent-2">
+        <foaf:familyName>Bizer</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6-textual-entity">
+        <dcterms:title>and J.-C. Freytag. Executing SPARQL Queries over the Web of Linked Data</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6-textual-entity">
+        <dcterms:publisher rdf:resource="publisher-reference-6-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="publisher-reference-6-textual-entity">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Organization" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6-textual-entity">
+        <foaf:name>USA</foaf:name>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-6-textual-entity">
+        <fabio:hasPublicationYear>2009</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-7" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-7">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-7" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-7">
+        <co:nextItem rdf:resource="reference-item-8" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-7">
+        <co:index>7</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7">
+        <dcterms:bibliographicCitation>[7] T.Heath and C.Bizer . Linked Data: Evolving the Web into a Global Data Space . Synthesis Lectures on the Semantic Web: Theory and Technology, 1 :1. Morgan &amp; Claypool , 1st edition, 2011 .</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7">
+        <biro:references rdf:resource="reference-7-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-7-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-7-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7-conceptual-work">
+        <dcterms:creator rdf:resource="reference-7-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7-agent-1">
+        <foaf:givenName>T.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7-agent-1">
+        <foaf:familyName>Heath</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7-conceptual-work">
+        <dcterms:creator rdf:resource="reference-7-agent-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7-agent-2">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7-agent-2">
+        <foaf:givenName>C.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7-agent-2">
+        <foaf:familyName>Bizer</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7-textual-entity">
+        <dcterms:title>Linked Data: Evolving the Web into a Global Data Space</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7-textual-entity">
+        <frbr:partOf rdf:resource="periodical-volume-reference-7-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="periodical-volume-reference-7-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/PeriodicalVolume" />
+        <prism:volume>1</prism:volume>
+        <frbr:partOf>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://purl.org/spar/fabio/Periodical" />
+            </rdf:Description>
+        </frbr:partOf>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7-textual-entity">
+        <dcterms:publisher rdf:resource="publisher-reference-7-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="publisher-reference-7-textual-entity">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Organization" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7-textual-entity">
+        <foaf:name>Morgan &amp; Claypool</foaf:name>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-7-textual-entity">
+        <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-8" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-8">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-8" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-8">
+        <co:nextItem rdf:resource="reference-item-9" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-8">
+        <co:index>8</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8">
+        <dcterms:bibliographicCitation>[8] J.Kotowski and F.Bry . A Perfect Match for Reasoning , Explanation, and Reason Maintenance: OWL 2 RL and Semantic Wikis. Proc. of the 5th Semantic Wiki Workshop (SemWiki 2010 ) at ESWC 2010, 2010 .</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8">
+        <biro:references rdf:resource="reference-8-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-8-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-8-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8-conceptual-work">
+        <dcterms:creator rdf:resource="reference-8-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8-agent-1">
+        <foaf:givenName>J.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8-agent-1">
+        <foaf:familyName>Kotowski</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8-conceptual-work">
+        <dcterms:creator rdf:resource="reference-8-agent-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8-agent-2">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8-agent-2">
+        <foaf:givenName>F.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8-agent-2">
+        <foaf:familyName>Bry</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8-textual-entity">
+        <dcterms:title>A Perfect Match for Reasoning</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8-textual-entity">
+        <fabio:hasPublicationYear>2010</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-8-textual-entity">
+        <fabio:hasPublicationYear>2010</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-9" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-9">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-9" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-9">
+        <co:nextItem rdf:resource="reference-item-10" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-9">
+        <co:index>9</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9">
+        <dcterms:bibliographicCitation>[9] T.Kurz , S.Schaert , T. B urger , S. Stroka, and R. Sint. KiWi - A Platform for building Semantic Social Media Applications . In 9th Int. Semantic Web Conference (ISWC2010), 2010 .</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9">
+        <biro:references rdf:resource="reference-9-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-9-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-9-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9-conceptual-work">
+        <dcterms:creator rdf:resource="reference-9-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9-agent-1">
+        <foaf:givenName>T.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9-agent-1">
+        <foaf:familyName>Kurz</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9-conceptual-work">
+        <dcterms:creator rdf:resource="reference-9-agent-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9-agent-2">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9-agent-2">
+        <foaf:givenName>S.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9-agent-2">
+        <foaf:familyName>Schaert</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9-textual-entity">
+        <dcterms:title>T. B urger</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9-textual-entity">
+        <dcterms:title>KiWi - A Platform for building Semantic Social Media Applications</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-9-textual-entity">
+        <fabio:hasPublicationYear>2010</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-10" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-10">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-10" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-10">
+        <co:nextItem rdf:resource="reference-item-11" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-10">
+        <co:index>10</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10">
+        <dcterms:bibliographicCitation>[10] K. R.Page , D. C.De Roure , and K. Martinez. REST and Linked Data. ACM Press , New York , New York, USA, Mar . 2011 .</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10">
+        <biro:references rdf:resource="reference-10-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-10-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-10-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10-conceptual-work">
+        <dcterms:creator rdf:resource="reference-10-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10-agent-1">
+        <foaf:givenName>K. R.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10-agent-1">
+        <foaf:familyName>Page</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10-conceptual-work">
+        <dcterms:creator rdf:resource="reference-10-agent-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10-agent-2">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10-agent-2">
+        <foaf:givenName>D. C.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10-agent-2">
+        <foaf:familyName>De Roure</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10-textual-entity">
+        <dcterms:publisher rdf:resource="publisher-reference-10-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="publisher-reference-10-textual-entity">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Organization" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10-textual-entity">
+        <foaf:name>REST and Linked Data. ACM Press</foaf:name>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10-textual-entity">
+        <tvc:hasValueInTime>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.essepuntato.it/2012/04/tvc/ValueInTime" />
+                <tvc:withinContext rdf:resource="reference-10-textual-entity" />
+                <tvc:withValue>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#VCard" />
+                        <vcard:addr>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#Address" />
+                                <vcard:locality>New York</vcard:locality>
+                            </rdf:Description>
+                        </vcard:addr>
+                    </rdf:Description>
+                </tvc:withValue>
+            </rdf:Description>
+        </tvc:hasValueInTime>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10-textual-entity">
+        <tvc:hasValueInTime>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.essepuntato.it/2012/04/tvc/ValueInTime" />
+                <tvc:withinContext rdf:resource="reference-10-textual-entity" />
+                <tvc:withValue>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#VCard" />
+                        <vcard:addr>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#Address" />
+                                <vcard:locality>New York, USA, Mar</vcard:locality>
+                            </rdf:Description>
+                        </vcard:addr>
+                    </rdf:Description>
+                </tvc:withValue>
+            </rdf:Description>
+        </tvc:hasValueInTime>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-10-textual-entity">
+        <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-11" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-11">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-11" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-11">
+        <co:nextItem rdf:resource="reference-item-12" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-11">
+        <co:index>11</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11">
+        <dcterms:bibliographicCitation>[11] A.Passant and P. N.Mendes . sparqlPuSH : Proactive notication of data updates in RDF stores using PubSubHubbub . In Scripting for the Semantic Web Workshop SFSW2010 at ESWC2010 , 2010 .</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11">
+        <biro:references rdf:resource="reference-11-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-11-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-11-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11-conceptual-work">
+        <dcterms:creator rdf:resource="reference-11-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11-agent-1">
+        <foaf:givenName>A.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11-agent-1">
+        <foaf:familyName>Passant</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11-conceptual-work">
+        <dcterms:creator rdf:resource="reference-11-agent-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11-agent-2">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11-agent-2">
+        <foaf:givenName>P. N.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11-agent-2">
+        <foaf:familyName>Mendes</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11-textual-entity">
+        <dcterms:title>Proactive notication of data updates in RDF stores using PubSubHubbub</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11-textual-entity">
+        <frbr:embodiment rdf:resource="digital-embodiment-d1e385" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-11-textual-entity">
+        <fabio:hasPublicationYear>2010</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-12" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-12">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-12" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-12">
+        <co:nextItem rdf:resource="reference-item-13" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-12">
+        <co:index>12</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12">
+        <dcterms:bibliographicCitation>[12] S.Schaert , J.Eder , S.Gr unwald, T. Kurz , M.Radulescu , R.Sint , and S. Stroka. KiWi - A Platform for Semantic Social Software . In Proc. of the 4th Semantic Wiki Workshop (SemWiki 2009 ), at ESWC 2009, 2009 .</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12">
+        <biro:references rdf:resource="reference-12-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-12-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-12-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-conceptual-work">
+        <dcterms:creator rdf:resource="reference-12-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-1">
+        <foaf:givenName>S.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-1">
+        <foaf:familyName>Schaert</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-conceptual-work">
+        <dcterms:creator rdf:resource="reference-12-agent-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-2">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-2">
+        <foaf:givenName>J.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-2">
+        <foaf:familyName>Eder</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-conceptual-work">
+        <dcterms:creator rdf:resource="reference-12-agent-3" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-3">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-3">
+        <foaf:givenName>S.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-3">
+        <foaf:familyName>Gr</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-textual-entity-source">
+        <dcterms:title>T. Kurz</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-textual-entity">
+        <frbr:partOf rdf:resource="reference-12-textual-entity-source" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-conceptual-work">
+        <dcterms:creator rdf:resource="reference-12-agent-4" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-4">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-4">
+        <foaf:givenName>M.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-4">
+        <foaf:familyName>Radulescu</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-conceptual-work">
+        <dcterms:creator rdf:resource="reference-12-agent-5" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-5">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-5">
+        <foaf:givenName>R.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-agent-5">
+        <foaf:familyName>Sint</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-textual-entity">
+        <dcterms:title>KiWi - A Platform for Semantic Social Software</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-textual-entity">
+        <fabio:hasPublicationYear>2009</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-12-textual-entity">
+        <fabio:hasPublicationYear>2009</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-13" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-13">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-13" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-13">
+        <co:nextItem rdf:resource="reference-item-14" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-13">
+        <co:index>13</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-13">
+        <dcterms:bibliographicCitation>[13] J.Shinavier . Ripple: Functional programs as linked data . In 3rd Workshop on Scripting for the Semantic Web , Innsbruck, Austria , 2007 .</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-13">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-13">
+        <biro:references rdf:resource="reference-13-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-13-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-13-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-13-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-13-conceptual-work">
+        <dcterms:creator rdf:resource="reference-13-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-13-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-13-agent-1">
+        <foaf:givenName>J.</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-13-agent-1">
+        <foaf:familyName>Shinavier</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-13-textual-entity">
+        <dcterms:title>Functional programs as linked data</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-13-textual-entity">
+        <dcterms:title>Workshop on Scripting for the Semantic Web</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-13-textual-entity">
+        <tvc:hasValueInTime>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.essepuntato.it/2012/04/tvc/ValueInTime" />
+                <tvc:withinContext rdf:resource="reference-13-textual-entity" />
+                <tvc:withValue>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#VCard" />
+                        <vcard:addr>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#Address" />
+                                <vcard:locality>Innsbruck, Austria</vcard:locality>
+                            </rdf:Description>
+                        </vcard:addr>
+                    </rdf:Description>
+                </tvc:withValue>
+            </rdf:Description>
+        </tvc:hasValueInTime>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-13-textual-entity">
+        <fabio:hasPublicationYear>2007</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-14" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-14">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-14" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-14">
+        <co:nextItem rdf:resource="reference-item-15" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-14">
+        <co:index>14</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-14">
+        <dcterms:bibliographicCitation>[14] W3 Consortium. XML Path Language (XPath) , November 1999 . http://www.w3.org/TR/xpath.</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-14">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-14">
+        <biro:references rdf:resource="reference-14-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-14-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-14-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-14-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-14-textual-entity">
+        <dcterms:title>W3 Consortium. XML Path Language (XPath)</dcterms:title>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-14-textual-entity">
+        <fabio:hasPublicationYear>1999</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-15" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-15">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-15" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-15">
+        <co:nextItem rdf:resource="reference-item-16" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-15">
+        <co:index>15</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-15">
+        <dcterms:bibliographicCitation>[15] W3Consortium . SPARQL 1.1 FederationExtensions (W3C Working Draft), June 2010 . http://www.w3.org/TR/sparql11-federated-query/.</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-15">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-15">
+        <biro:references rdf:resource="reference-15-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-15-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-15-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-15-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-15-conceptual-work">
+        <dcterms:creator rdf:resource="reference-15-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-15-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-15-agent-1">
+        <foaf:givenName>W3</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-15-agent-1">
+        <foaf:familyName>Consortium</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-15-conceptual-work">
+        <dcterms:creator rdf:resource="reference-15-agent-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-15-agent-2">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-15-agent-2">
+        <foaf:familyName>Federation</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-15-agent-2">
+        <foaf:givenName>Extensions</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-15-textual-entity">
+        <fabio:hasPublicationYear>2010</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-16" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-16">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-16" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-16">
+        <co:nextItem rdf:resource="reference-item-17" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-16">
+        <co:index>16</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-16">
+        <dcterms:bibliographicCitation>[16] W3Consortium . Media Fragments URI 1.0 (W3C Working Draft), March 2011 . http://www.w3.org/TR/media-frags/.</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-16">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-16">
+        <biro:references rdf:resource="reference-16-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-16-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-16-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-16-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-16-conceptual-work">
+        <dcterms:creator rdf:resource="reference-16-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-16-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-16-agent-1">
+        <foaf:givenName>W3</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-16-agent-1">
+        <foaf:familyName>Consortium</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-16-textual-entity">
+        <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-17" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-17">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-17" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-17">
+        <co:nextItem rdf:resource="reference-item-18" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-17">
+        <co:index>17</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-17">
+        <dcterms:bibliographicCitation>[17] W3Consortium . Ontology for Media Resources 1.0 (W3C Candidate Recommendation), July 2011 . http://www.w3.org/TR/mediaont- 10 /.</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-17">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-17">
+        <biro:references rdf:resource="reference-17-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-17-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-17-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-17-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-17-conceptual-work">
+        <dcterms:creator rdf:resource="reference-17-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-17-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-17-agent-1">
+        <foaf:givenName>W3</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-17-agent-1">
+        <foaf:familyName>Consortium</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-17-textual-entity">
+        <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-17-textual-entity">
+        <frbr:embodiment rdf:resource="digital-embodiment-d1e516" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity-reference-list">
+        <co:item rdf:resource="reference-item-18" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-18">
+        <rdf:type rdf:resource="http://purl.org/co/ListItem" />
+        <co:itemContent rdf:resource="reference-18" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-item-18">
+        <co:index>18</co:index>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-18">
+        <dcterms:bibliographicCitation>[18] W3Consortium . SPARQL 1.1 Query (W3C Working Draft), May 2011 . http://www.w3.org/TR/sparql11-query/.</dcterms:bibliographicCitation>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-18">
+        <rdf:type rdf:resource="http://purl.org/spar/biro/BibliographicReference" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-18">
+        <biro:references rdf:resource="reference-18-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="textual-entity">
+        <cito:cites rdf:resource="reference-18-textual-entity" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-18-textual-entity">
+        <rdf:type rdf:resource="http://purl.org/spar/fabio/Expression" />
+        <frbr:realizationOf rdf:resource="reference-18-conceptual-work" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-18-conceptual-work">
+        <dcterms:creator rdf:resource="reference-18-agent-1" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-18-agent-1">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-18-agent-1">
+        <foaf:givenName>W3</foaf:givenName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-18-agent-1">
+        <foaf:familyName>Consortium</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-18-conceptual-work">
+        <dcterms:creator rdf:resource="reference-18-agent-2" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-18-agent-2">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person" />
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-18-agent-2">
+        <foaf:familyName>Query</foaf:familyName>
+    </rdf:Description>
+    <rdf:Description rdf:about="reference-18-textual-entity">
+        <fabio:hasPublicationYear>2011</fabio:hasPublicationYear>
+    </rdf:Description>
 </rdf:RDF>
