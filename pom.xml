@@ -23,7 +23,7 @@
     </properties>
 
     <build>
-        <finalName>pdfl</finalName>
+        <finalName>pdf-linker</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
