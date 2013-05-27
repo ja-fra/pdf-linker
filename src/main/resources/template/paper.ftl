@@ -3,9 +3,46 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
 <head>
-  <title>${URI}</title>
+  <title><@ldpath path="."/></title>
     <link href="${ROOT}/ext/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
     <script src="${ROOT}/ext/bootstrap/js/bootstrap.js"></script>
+    <style type="text/css">
+        body {
+            padding-top: 20px;
+            padding-bottom: 40px;
+        }
+
+            /* Custom container */
+        .container-narrow {
+            margin: 0 auto;
+            max-width: 700px;
+        }
+        .container-narrow > hr {
+            margin: 30px 0;
+        }
+
+            /* Main marketing message and sign up button */
+        .jumbotron {
+            margin: 60px 0;
+            text-align: center;
+        }
+        .jumbotron h1 {
+            font-size: 72px;
+            line-height: 1;
+        }
+        .jumbotron .btn {
+            font-size: 21px;
+            padding: 14px 24px;
+        }
+
+            /* Supporting marketing content */
+        .marketing {
+            margin: 60px 0;
+        }
+        .marketing p + h4 {
+            margin-top: 28px;
+        }
+    </style>
 </head>
 <body>
 <#setting url_escaping_charset="UTF-8">
@@ -15,7 +52,7 @@
     <div class="masthead">
         <ul class="nav nav-pills pull-right">
             <li><a href="${ROOT}">Home</a></li>
-            <li><a href="${ROOT}sparql/admin/snorql/snorql.html?describe="${uri?url}>Snorql</a></li>
+            <li><a href="${ROOT}sparql/admin/snorql/snorql.html?describe=${uri?url}">Snorql</a></li>
             <li><a href="<@ldpath path="."/>">LD Browser</a></li>
         </ul>
         <h3 class="muted"><@ldpath path="."/></h3>
@@ -26,7 +63,6 @@
     <div class="jumbotron">
         <h1><@ldpath path="dcterms:title"/></h1>
         <p class="lead"><@ldpath path="swrc:abstract"/></p>
-        <a class="btn btn-large btn-success" href="#">Sign up today</a>
     </div>
 
     <hr>
