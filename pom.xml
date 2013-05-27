@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+    
     <modelVersion>4.0.0</modelVersion>
-
+    
     <parent>
         <groupId>at.newmedialab.lmf</groupId>
         <artifactId>lmf-parent</artifactId>
@@ -253,5 +253,12 @@
             <artifactId>ldpath-template</artifactId>
             <version>${marmotta.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.efsavage.twitter.bootstrap</groupId>
+            <artifactId>bootstrap-maven</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
     </dependencies>
 </project>
