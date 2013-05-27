@@ -1,0 +1,993 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article>
+  <front>
+    <journal-meta />
+    <article-meta>
+      <contrib-group />
+      <abstract>
+        <p>This article presents the Linked Media Framework (LMF), a platform for integrating and interlinking structured data and media content in enterprises and on the Web. The Linked Media Framework is based on the Linked Data principles, but extends these on two important aspects: resourcecentric updating and uniform management of resource content and metadata. Both aspects are important for enterprise information integration but not implemented by current Linked Data servers. In addition, the LMF oers the query language LD Path, a path-based language that allows intuitive resource-centric querying and traversal over distributed Linked Data resources and is thus more suitable for querying Linked Data than SPARQL. Finally, we describe two real-world scenarios where the LMF is already used or will be used for interlinking and semantic search: interlinking of multimedia fragments at the Red Bull Content Pool, and interlinking of news archive material at the Austrian Television.</p>
+      </abstract>
+    </article-meta>
+  </front>
+  <body>
+    <sec id="1">
+      <title>1. INTRODUCTION</title>
+      <p>Linked Data oers a big potential for enterprises in the
+media and knowledge management area. On the one hand,
+more and more datasets are published following Linked Data
+principles and thus give the opportunity to link enterprise
+content with background information and also allow
+disambiguation of concepts. No single enterprise would be capable
+of managing a standardised vocabulary the size of DBPedia
+or a location database the size of GeoNames. On the other
+hand, Linked Data can also oer a comparably simple
+solution for enterprise information integration inside companies.
+Permission to make digital or hard copies of all or part of this work for
+personal or classroom use is granted without fee provided that copies are
+not made or distributed for profit or commercial advantage and that copies
+bear this notice and the full citation on the first page. To copy otherwise, to
+republish, to post on servers or to redistribute to lists, requires prior specific
+permission and/or a fee.</p>
+      <p>I-SEMANTICS 2012 , 8th Int. Conf. on Semantic Systems, Sept. 5-7, 2012,
+Graz, Austria
+Copyright 2012 ACM 978-1-4503-1112-0 ...$10.00.</p>
+      <p>However, enterprises are still hesitating to use Linked
+Data in their value chains. From our experience with
+working with industry partners, one of the main barriers in the
+adoption of Linked Data is that the technology is still not
+easy enough to use and does not integrate well with existing
+information systems. Particularly, accessing data from the
+Linked Data Cloud is still cumbersome, and Linked Data
+has so far mostly been seen as a read-only and
+metadataonly source, while enterprise data usually is highly dynamic
+and involves both content and metadata. We are therefore
+focussing in this article on the following aspects:
+1. how to extend the Linked Data principles with
+RESTful principles for addition, modication, and deletion
+of resources
+2. how to extend the Linked Data principles by means to
+manage content and meta-data alike using MIME to
+URL mapping
+These issues are motivated by real-world scenarios that we
+are investigating at Salzburg NewMediaLab in the areas
+of enterprise integration and media asset management (see
+also Section 5). In both scenarios, resources typically
+describe media or document content (so-called information
+resources). So while most existing Linked Data services are
+only concerned about structured data, our scenarios require
+treatment of both content and metadata (e.g. the media
+assets stored in an asset management system and the
+metadata about these assets). And whereas in most existing cases
+publishing the datasets as Linked Data is a secondary
+service where the main data source is still a proprietary or
+non-standardised format (e.g. Wikipedia in the case of
+DBPedia), in our scenarios Linked Data is the primary means
+of publishing metadata. This immediately gives rise to the
+question how to update and interact with the Linked Data
+service in a resource-centred way beyond consuming.
+Besides the use cases we are working on, both extensions also
+give rise to new kinds of interactive Linked Data mashups.</p>
+      <p>The main contributions of this article are rst a concrete
+and detailed proposal for the extension of the Linked Data
+principles for updates and for content access (Section 2),
+second the proposal of a path-based language for querying
+data on the Linked Data Cloud (Section 3), and third the
+implementation of a Linked Data server (called the \Linked
+Media Framework" or short \LMF") that implements and
+demonstrates these extensions (Section 4). Our approach is
+currently validated in several applications, two of which are
+described in Section 5. Section 6 compares our approach
+with related work.</p>
+    </sec>
+    <sec id="2">
+      <title>2. THE LINKED MEDIA PRINCIPLES</title>
+      <p>One of the core principles of Linked Data is that it builds
+strongly on the HTTP protocol for content negotiation and
+retrieval. As [7] describes, content negotiation in the Linked
+Data world works as follows:
+1. the client sends a HTTP GET request to a resource
+identied by a URI, together with an Accept: header
+of either application/rdf+xml or text/html
+2. based on the header, the server decides whether
+to send a human-readable (text/html) or
+machinereadable (application/rdf+xml) representation of the
+resource; it sends a response code of 303 See Other
+pointing to the respective resource representation
+3. the client performs a second HTTP GET request to
+the location pointed to by the server response
+4. the server responds with a 200 Ok response code and
+delivers the requested representation
+By applying this content negotiation, Linked Data remains
+compatible with existing Web browsers and standards. Our
+Linked Media Principles extend these Linked Data
+principles along two dimensions that are in principle independent
+from each other but both motivated through our
+application scenarios. The rst extension is concerned with Linked
+Data updates, while the second is concerned with managing
+media content and metadata alike.</p>
+      <sec id="2-1">
+        <title>2.1 Extending Linked Data for Updates Using REST</title>
+        <p>The main precondition of our extensions is that they must
+remain fully backwards-compatible with existing Linked
+Data implementations so that existing tools can be used.
+Since Linked Data heavily builds upon HTTP as described
+above, a natural way of implementing updates in Linked
+Data is to make use of the HTTP PUT, POST and DELETE
+commands in addition to the GET command.</p>
+        <p>While not specically excluded, Linked Data servers in
+their current implementations do not make use of these
+commands. However, they are commonly used to build highly
+interactive web applications using the REST
+(\Representational State Transfer") architectural approach to build web
+services as described in the thesis of Roy Fielding [3]. Like
+in Linked Data, the central principle of REST is \the
+existence of resources (sources of specic information), each of
+which is referenced with a global identier (e.g., a URI in
+HTTP)".1 Combining REST and Linked Data is therefore a
+natural choice.
+1http://en.wikipedia.org/wiki/Representational_
+State_Transfer
+POST creates the resource represented by the URI
+used in the request; optionally, the request body can
+contain resource content or metadata, in which case
+the Content-Type header denes the format and kind
+of data that is sent (see PUT); the server will respond
+with a 201 Created in case the resource is created and
+200 Ok in case the resource already exists
+PUT replaces the content or metadata of the
+resource represented by the URI used in the request
+with the data contained in the request body; the
+Content-Type header indicates the format and kind
+of the data that is sent; the server will respond with
+a 300 Multiple Choices in case the resource exists,
+rewriting the URI according to the content type as
+described in the next section; a subsequent PUT to the
+redirected URI will update the content or metadata
+on the server; in case the resource does not exist, the
+server will return a 404 Not Found
+DELETE deletes the resource represented by the URI
+used in the request and all associated content and
+meta-data; the response code will be either a 200 Ok
+in case the resource exists and is successfully deleted
+or a 404 Not Found in case the resource does not exist
+Note that current HTTP client implementations often
+automatically rewrite the request method from PUT to GET
+when they receive a 303 See Other, which makes it
+unsuitable for redirecting a resource update. The
+solution we chose to this problem is to use the status code
+300 Multiple Choices. In this case the response is not
+completely consistent with the Linked Data principles. In
+our implementation, we address this problem by a
+conguration option that switches between maximum Linked Data
+compatibility and maximum HTTP conformance.</p>
+      </sec>
+      <sec id="2-2">
+        <title>2.2 Extending Linked Data for Arbitrary Media Types using MIME Mapping</title>
+        <p>The second extension we propose is capable of handling
+content and metadata in a uniform way on the same server. This
+is e.g. required when providing a Linked Data frontend to
+existing content or media asset management systems so that
+they can oer both the media content in dierent formats
+(e.g. an image in jpeg and png format) and the metadata
+about the media content (e.g. the EXIF metadata). In
+addition, our extension gives us the exibility to deliver
+content and metadata in formats understood by the respective
+clients. With the increasing use of Javascript for
+implementing rich client applications, it is e.g. useful to deliver
+metadata in RDF/JSON2 or JSON-LD3 instead of RDF/XML.</p>
+        <p>Linked Data is currently only concerned about data and
+does not take into account media content that is also
+associated with the resource: when requesting the media
+type text/html, current servers will deliver a (usually
+tabular) HTML representation of the metadata but not
+nonmetadata Web content. Likewise, it is not really possible to
+2http://docs.api.talis.com/platform-api/
+output-types/rdf-json
+3http://json-ld.org/
+distinguish between a document of type RDF/XML as
+content and the metadata about it as data. As a consequence,
+a Linked Data server currently cannot be used as both, a
+content management system and a Linked Data repository.
+However, this would be desirable for systems that oer
+media content as well as meta-data, e.g. media asset
+management systems or document management systems.</p>
+        <p>Our extension is based on the content negotiation using
+Content-Type and Accept: headers as dened in the HTTP
+protocol. The Linked Data principles already apply this
+approach for GET requests using the Accept: header, but they
+leave open how exactly the server generates the redirect URI.
+In the Linked Media Framework, we implement a uniform
+mapping of resource URIs to redirect URIs depending on
+the MIME type passed in the Content-Type (PUT/POST
+commands) and Accept: (GET command) headers.
+Distinguishing Content and Metadata. In our
+proposal, we distinguish between metadata and content by
+extending the media type passed in the Content-Type: or
+Accept: header with an additional rel=... parameter:
+a media type of type/subtype; rel=content
+indicates that the client requests or sends the content
+associated with the resource in the given format
+a media type of type/subtype; rel=meta indicates
+that the client requests or sends the metadata
+associated with the resource in the given format
+For backwards compatibility with existing Linked Data
+clients, the default behaviour without rel-parameter is meta.
+However, for interaction with users it might be desirable to
+change this behaviour in certain congurations, as users are
+mostly interested in the content and not in the metadata.
+URI Rewriting. The generation of redirect URIs is based
+on both the original URI and the extended media type.
+Resource URIs always have the form
+http://&lt;host&gt;/&lt;root&gt;/resource/&lt;id&gt;
+where &lt;host&gt; is the host name of the installation (with
+optional port), &lt;root&gt; is the root directory where the Linked
+Data server is installed and &lt;id&gt; is an arbitrary but unique
+identier (can also include subpaths separated by ?/?). Based
+on the media type, these URIs are rewritten as follows:
+http://&lt;host&gt;/&lt;root&gt;/&lt;kind&gt;/&lt;type&gt;/&lt;subtype&gt;/&lt;id&gt;
+where &lt;kind&gt; is either content or meta, &lt;type&gt; is the
+primary MIME type (e.g. image or text) and &lt;subtype&gt; is the
+subtype (e.g. jpeg or rdf+n3).</p>
+      </sec>
+    </sec>
+    <sec id="3">
+      <title>3. LDPATH: RESOURCE-CENTRIC</title>
+      <p>QUERYING OVER LINKED DATA
+Even though resources on Linked Data servers are typically
+interlinked and thus conceptually integrate data from many
+dierent sources, querying such data is still very
+cumbersome. The main reason is that existing query languages for
+RDF like SPARQL are rather dataset-centric and do not
+easily query over distributed or even unknown sources. There
+are currently three approaches to address this issue:
+a central index harvests the Web for RDF data and
+stores it in a central repository and oers it for
+querying, e.g. using SPARQL. This approach is followed e.g.
+by Sindice,4 which oers a public SPARQL endpoint.
+4http://sindice.com/
+The rst two approaches have obvious disadvantages: a
+central repository is not always recent and a single point of
+failure, while explicit federated queries are cumbersome to
+write and need exact information on how and where to access
+the SPARQL endpoint. They also require that all queried
+servers implement the SPARQL 1.1 Federation Extensions.
+The third approach is in our opinion not very user friendly,
+since the user cannot easily determine whether the results
+he will get are complete or not and important enterprise
+decisions might depend on that information.</p>
+      <p>In this section, we therefore propose an alternative
+approach to querying Linked Data resources based on a path
+traversal following RDF links between Linked Data
+resources. Our approach is resource-centric and thus intuitive
+to users of Linked Data. It also does not need any specic
+extension beyond the Linked Data principles and the
+standard HTTP protocol: any existing Linked Data server can
+be queried without modication. The path language has
+originally been developed as a means to congure the LMF
+Semantic Search component, but we believe it is a valuable
+contribution in itself.</p>
+      <p>RDF Path Language
+LDPath follows the same ideas and syntax as XPath 1.0 [14],
+but instead of XML elements it allows traversal over the
+conceptual RDF graph represented by interlinked Linked Data
+servers. In its core, LDPath is thus similar to the SPARQL</p>
+      <sec id="3-1">
+        <title>1.1 Property Paths [18]. However, LDPath is deliberately re</title>
+        <p>stricted in its expressiveness to syntactically disallow queries
+that would be dicult to evaluate completely on the Linked
+Data Cloud (e.g. following links backwards). The path
+language supports a number of path selectors that start at the
+current \context resource" and return a collection of nodes
+based on the path specication. A full description of
+LDPath is available as part of the LMF documentation.5 The
+following example shows the selection of the foaf:name of all
+friends of the person represented by the queried resource:
+friend = foaf:knows/foaf:name :: xsd:string;</p>
+        <p>The remainder of the section outlines the capabilities of
+the LDPath language by providing a brief overview.
+Property Selection. Property selections allow to follow a
+triple (RDF link) to another node in the RDF graph. The
+node may be either local or remote. Property selections have
+the following form:
+&lt;URI&gt; | PREFIX:LOCAL
+i.e. either a URI enclosed in &lt;..&gt; or a property name in
+abbreviated notation using namespace prex and local name
+(prex mapping has to be dened, cf. the online
+documentation). The following two paths both select the name of a
+person represented by the context resource as a string:
+name = foaf:name :: xsd:string ;
+name = &lt;http://xmlns.com/foaf/0.1/name&gt;::xsd:string;
+5http://code.google.com/p/ldpath/
+Path Traversal. RDF links can be followed by separating
+selectors with /. In this case, the left-hand selector is
+evaluated rst to select new context nodes, and for each of these
+context nodes the right-hand selector is then evaluated. The
+following LDPath expression rst selects the resources
+representing the persons known to the person represented by
+the current resource, and then selects their names as string:
+friend = foaf:knows/foaf:name :: xsd:string;
+Path traversal transparently \hops over" to other Linked
+Data servers when needed, because the querying can be
+performed entirely by issuing Linked Data retrievals.
+Path Connectors and Grouping. Several path selectors
+can be connected with boolean operators, forming a union
+(connector |) or intersection (connector &amp;) of the selection
+results. Parentheses can be used to change the operator
+precedence. For example, the following LDPath expression
+selects the names of all friends, regardless whether they are
+represented using the FOAF or the RDFS vocabulary:
+friend = foaf:knows/foaf:name</p>
+        <p>| foaf:knows/rdfs:label :: xsd:string;
+friend = foaf:knows/(foaf:name | rdfs:label)
+Path connectors are a simple but powerful tool for coping
+with the use of dierent vocabularies on dierent servers for
+the same kind of information.</p>
+        <p>Path Tests. Path tests allow ltering the result nodes of a
+selector based on a condition on their properties. Path tests
+are added at the end of a selection and embraced in [...]
+like in XPath. A path test can either test for the existance or
+value of a property, in which case it is itself a selector, or on
+the language of a literal. For example, the following LDPath
+expression would select RDFS labels if they are either in
+German or without language specication:
+title = rdfs:label[@de] | rdfs:label[@none]
+Similarly, the following RDF Path would only select interests
+of a person that are a kind of food:
+food = foaf:interest[rdf:type is ex:Food]
+Path Functions. Functions can be used inside the path to
+transform the results of path queries. For example, the
+following function selector concatenates the FOAF rst name
+and last name of a person and represents it as a string:
+Functions can thus also be used to cope with dierent
+ways of representing the same kind of information on
+different servers. Currently, the LMF provides a number
+of built-in functions, among them string concatenation
+(fn:concat), HTML removal (fn:removeTags), and XPath
+selection within XML literals (fn:xpath).</p>
+        <p>Path Types. LDPath expressions have an optional result
+type that may be used to transform the selected nodes into
+a dierent form, e.g. a string, a date, a URI, or a point.
+Result types are added to a path selection with :: followed
+by the type name. The following LDPath expression selects
+the foaf:based_near property and converts the result nodes
+into a special location type that holds latitude and longitude
+in a complex object (for geo-indexing in the search index):
+Currently, the LMF oers the XML Schema base types as
+well as a number of specialised datatypes used to congure
+the semantic search index.</p>
+        <sec id="3-1-1">
+          <title>Linked Data Caching</title>
+          <p>Underlying the LDPath language is an implementation of
+a Linked Data client that transparently retrieves and caches
+resources and their triples when needed. The basic
+operation is as follows: whenever a navigation step of the path
+language moves the context to a new resource, we check
+whether the resource is already locally cached and not
+expired (i.e. the expiry time has not passed). If yes, we perform
+the next part of the query using the cached version. If no, we
+issue a HTTP request to retrieve the triples of that resource
+and cache them locally using the expiry time sent by the
+server as conforming to the HTTP standard. For retrieving
+resources, we support the following three types of requests:
+Linked Data Requests. The default way of retrieving a
+resource is to issue a request conforming to the Linked Data
+principles and rely on content negotiation and redirects to
+get the triple representation. Our implementation currently
+supports RDF/XML, Turtle, N3, and RDF/JSON.</p>
+          <p>SPARQL Requests. There is still much data on the Web
+of Data that does not conform to the Linked Data principles.</p>
+          <p>To support querying also this data, it is possible to congure
+that requests to certain resources should be handled using a
+SPARQL endpoint instead of issuing a Linked Data request.</p>
+          <p>In this case, our implementation sends a simple SPARQL
+query as follows:
+SELECT ?p ?o WHERE { &lt;RESOURCE&gt; ?p ?o }
+This query essentially returns all triples for a xed resource
+passed as argument. Another option would be to instead
+issue a SPARQL DESCRIBE query, but the SPARQL
+specication is not very specic on what data would be returned.</p>
+          <p>Cache Requests. The third type of request is sent to a
+cache server that contains a copy of a resource description
+originating somewhere else. There are several justications
+for this type of requests: (1) requests to a specic server
+might be very frequent and it is useful to have a local copy,
+(2) a remote server might be unreliable or slow justifying a
+local copy, (3) access should be only to a \trusted" or
+\certied" server where the data will not change unexpectedly,
+and (4) there is a central repository like Sindice6 that
+harvests resource descriptions from the whole web of data and
+can thus provide additional information about a resource.</p>
+          <p>Cache requests are simple mappings from resource URI
+patterns to REST webservices that take as argument the
+resource URI and return the triple data.</p>
+          <p>Beyond Linked Data. The Linked Data Caching
+component goes beyond ordinary Linked Data by providing an
+API that allows implementing wrappers around other data
+sources on the Web (e.g. the YouTube or Vimeo API). Such
+wrappers map proprietary data structures into standardized
+RDF vocabularies (in the case of YouTube and Vimeo: the
+Media Ontology) or try to extract structured information
+out of unstructured content (e.g. EXIF information from
+images or more sophisticated information extraction). In this
+way, proprietary data sources can be accessed transparently
+using the same tools as Linked Data resources.
+6http://sindice.com
+Figure 1: Service-Oriented Architecture of the Linked Media Framework. The ResourceWebService in LMF
+Core implements the proposed Linked Data extensions. LMF Search provides services for facetted semantic
+search. LMF Sparql oers querying using a SPARQL endpoint. Services are interacting either via events or
+via injection (loose coupling).</p>
+        </sec>
+      </sec>
+    </sec>
+    <sec id="4">
+      <title>4. IMPLEMENTATION: MEDIA FRAMEWORK THE</title>
+      <sec id="4-1">
+        <title>LINKED</title>
+        <p>To evaluate the practicality of the suggested extensions, we
+have developed a prototypical implementation in our Linked
+Media Framework (LMF). We are implementing several
+realworld scenarios based on this system (cf. Section 5).</p>
+        <p>The general architecture of the Linked Media Framework
+is depicted in Figure 1. The architecture is service oriented
+and strictly follows the principle of loose coupling of
+components, making the system very extensible and congurable.
+Most core components of the LMF are developed using Java
+and were originally implemented in the KiWi System [12, 9].
+The current implementation of the Linked Media Framework
+consists of the following modules:</p>
+        <p>LMF Core implements the Linked Data server
+including the extensions we propose. Linked Data and
+extensions are handled by the ResourceWebService. The
+ResourceWebService is backed by our own persistence
+implementation that in addition to triple management
+provides transactions and versioning, and is prepared
+for storing provenance information and reason
+maintenance information in conjunction with the reasoner.
+LMF Search oers semantic search over resources</p>
+      </sec>
+      <sec id="4-2">
+        <title>based on Apache SOLR.7 The search component is</title>
+        <p>highly customizable and allows mapping \LD Paths"
+to index elds; by default we include rulesets for RDF,
+SKOS, and Dublin Core. The LMF Search
+component can be accessed using a REST API conforming
+to the OpenSearch standard and is compatible with
+the Apache SOLR search API. Existing SOLR clients
+can thus be used for accessing the search functionality.
+LMF Sparql provides a SPARQL endpoint for querying
+and updating the data contained in the LMF
+installation. The implementation makes use of Sesame to oer
+SPARQL 1.1 Query and Update support.
+7http://lucene.apache.org/solr/
+LMF Linked Data Caching provides an
+implementation of transparent Linked Data Caching as described
+in Section 3. Linked Data Caching is used for LDPath
+queries as well as (in limited cases) for SPARQL.
+LMF Reasoner oers a subset of the rule-based
+reasoner sKWRL [8] developed in the KiWi project for
+reasoning over triples contained in the LMF. Rules
+can be added and updated by the user during
+runtime and are evaluated using a forward chaining
+xpoint algorithm. In addition to the inferred triples,
+the LMF Reasoner also computes so-called
+justications that give explanations (base triples and rules
+used in the inference) why certain triples have been
+inferred. Justications are used for ecient updating
+(so-called reason maintenance or truth maintenance)
+and for displaying to the user.</p>
+        <p>Components of the LMF typically interact by sending
+events. For example, upon completion of a transaction, all
+transaction data is handed over to the search component
+for indexing and to the reasoner for incremental inferencing.
+Additional modules are currently under development.
+Particularly, we are working on an implementation of WebACL8
+for managing access to resources, integration of content
+analysis and semantic enhancement based on Apache Stanbol9,
+and on extending the reasoner to support full sKWRL as
+well as event-condition-action rules, which are useful in our
+application scenarios. With respect to performance and
+stability, we have tested the system with the GeoNames data
+set, about 143 million triples. The response times were
+accurate and the system stable.</p>
+      </sec>
+    </sec>
+    <sec id="5">
+      <title>5. APPLICATION SCENARIOS</title>
+      <p>We are evaluating our technology in a number of
+application scenarios that are currently implemented together
+8http://www.w3.org/wiki/WebAccessControl
+9http://incubator.apache.org/stanbol/
+with partner companies. The aim of the Linked Media
+Framework is to integrate information in enterprises by
+using Linked Media. The rst scenario shows the interlinking
+of multimedia content with background information from
+the Linked Data Cloud, whereas the second scenario
+outlines the seamless integration of the technology with
+existing systems and the annotation of human-readable content
+with Linked Data concepts. In all applications, the Linked
+Media Framework is used for provisioning a semantic search
+service. Demonstrators of both scenarios are available at
+http://labs.newmedialab.at/.</p>
+      <sec id="5-1">
+        <title>Red Bull: Interlinking Media Fragments</title>
+        <p>The Red Bull Content Pool10 designed and operated by
+Red Bull Media House is the central repository of media
+content related to sports events organised by Red Bull, e.g.
+the Air Race, the Cli Diving Competition, or the Red Bull
+Rampage mountainbike race. Media content is mostly raw
+or processed video material that Red Bull oers to other
+media providers in dierent formats and quality for further
+use. Typically, the content is also annotated with the event,
+year, location, and athletes that are shown. The following
+persona (Markus, the sports journalist) describes a typical
+intended use of the Red Bull Content Pool:</p>
+        <p>Markus works as a sports journalist for a small regional
+TV station. Since the cli diving world championship also
+tours through the region, he has to prepare a short TV report
+on cli diving in general, famous athletes and spectacular
+scenes in known places. As a small TV station does not
+have its own video material, he visits the Red Bull Content
+Pool to acquire the content he needs from there.</p>
+        <p>Linked Media helps Markus in the following tasks:
+in nding videos and video fragments in the Red Bull
+Content Pool ("Fort Boyard", "Helicopter Scene"),
+because videos and video fragments are annotated and
+10http://www.redbullcontentpool.com
+indexed for semantic search
+in nding relevant background information for videos,
+e.g. about athletes and locations, because videos are
+connected with background content and data from the
+Linked Data Cloud and from Red Bull
+in nding the persons behind videos, because videos
+are connected with the people that are related to them
+The Red Bull Content Pool scenario makes use of Linked
+Data for three purposes: (1) enriching own content with
+higher-quality metadata from the Linked Data Cloud, e.g.
+about athletes or locations, (2) publishing content and
+metadata as Linked Data for others, and (3) making multimedia
+content available for cross-referencing and interlinking.</p>
+        <p>All three functionalities are implemented based on the
+Linked Media Framework using sample media content from
+the Cli Diving events (see Figure 2). Media fragments
+are identied by making use of the Media Fragments URI
+1.0 specication [16]. Annotations of media resources and
+fragments are represented in the LMF using the W3C
+Media Ontology [17].Media resources are annotated based on
+(manually created) metadata sheets with basic information
+(keywords, time, location), textual transcripts of spoken
+language, and shotlists briey describing scene settings. These
+textual transcripts serve both, as textual annotation for
+multimedia fragments and as input for named entity recognition
+and semi-automatic interlinking with Linked Data concepts.</p>
+        <p>In addition to the Linked Data functionalities described
+above, the LMF also oers semantic search over the media
+content and metadata, and an interactive video player that
+displays additional related information to videos while they
+are playing (see Figure 2).</p>
+        <p>ORF Archive: Interlinking News
+The ORF Archive is the central repository for all video and
+audio material created by the Austrian Television in the last
+60 years and contains a vast amount of media content in
+dierent formats. Its primary objective is to preserve video
+material for potential future use and make it accessible to
+editors. The main task is therefore to properly annotate and
+organise video material so that it can be retrieved easily later
+and the related context information is readily available. In
+this scenario, we work with two types of content: news
+material of the daily news magazine and sports content. The
+news material typically is devided into short news reports
+with a brief textual description of the content, the journalist,
+and the location. The following persona describes a
+prototypical archivist working in the ORF archive:</p>
+        <p>Monika works as an archivist in the ORF archive. When
+she receives video material from the editors, it already
+contains base metadata as well as a textual description. Her
+task is to annotate the content with metadata of consistently
+high quality and connect it with the appropriate background
+information for editors to later quickly get an overview of the
+context. Of particular interest are locations and persons,
+because they are often ambiguous or written dierently. The
+time Monika has available for performing the annotation is
+typically very limited { a news article of 3 minutes has to be
+fully annotated in at most 15 minutes.</p>
+        <p>The LMF addresses Monika?s needs as follows:</p>
+      </sec>
+    </sec>
+    <sec id="6">
+      <title>6. RELATED WORK</title>
+      <p>There have been some proposals for updating Linked Data
+and comparing and combining Linked Data with RESTful
+architectures, as well as for uniform access to content and
+data. In the following we summarise the most recent
+stateof-the-art and describe how our approach diers from it.
+Combining Linked Data and REST. The combination
+of Linked Data and REST is quite natural and has been
+implicitly present even in the original Linked Data
+principles proposed by Tim Berners-Lee [1]. Most articles are
+however concerned only with retrieval of resources, not with
+updating. The idea of also applying REST for updating has
+gained more interest only recently: [2] e.g. mentions an
+information resource modication mechanism based on REST,
+and [4] described an actual implementation of an approach
+called Rhizomer that is similar to ours, but the authors do
+not go into further detail. The article [10] provides a very
+interesting comparison of similarities and dierences between
+Linked Data and REST. Finally, the article [5] also describes
+the use of REST for updating Linked Data resources, albeit
+based on SPARQL Updates.</p>
+      <p>From these approaches our proposal diers as follows: (1)
+it treats Linked Data updates in a way that is analogous to
+Linked Data retrieval ; (2) it provides a detailed and
+complete specication of the content negotiation and protocol,
+(3) it has been implemented and evaluated in real-world
+scenarios, and (4) it addresses both updates and uniform
+content and metadata management.</p>
+      <p>Updating Linked Data. Most of the research on Linked
+Data so far is concerned with publishing and consuming
+Linked Data, and there are only few proposals on how to</p>
+    </sec>
+    <sec id="7">
+      <title>7. ACKNOWLEDGMENTS</title>
+    </sec>
+    <sec id="8">
+      <title>8. REFERENCES</title>
+    </sec>
+  </body>
+  <back>
+    <ref-list>
+      <ref>
+        <mixed-citation>
+          [1]
+          <string-name>
+            <given-names>T.</given-names>
+            <surname>Berners-Lee</surname>
+          </string-name>
+          .
+          <publisher-name>Linked Data</publisher-name>
+          ,
+          <year>2006</year>
+          .
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [2]
+          <string-name>
+            <given-names>B.</given-names>
+            <surname>Ferris</surname>
+          </string-name>
+          .
+          <article-title>A generalisation of the Linked Data publishing guideline (blog post</article-title>
+          ),
+          <year>2011</year>
+          .
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [3]
+          <string-name>
+            <given-names>R.</given-names>
+            <surname>Fielding</surname>
+          </string-name>
+          .
+          <article-title>Architectural styles and the design of network-based software architectures</article-title>
+          .
+          <year>2000</year>
+          .
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [4]
+          <string-name>
+            <given-names>R.</given-names>
+            <surname>Garac</surname>
+          </string-name>
+          ,
+          <string-name>
+            <given-names>J. M.</given-names>
+            <surname>Brunetti</surname>
+          </string-name>
+          ,
+          <string-name>
+            <given-names>A.</given-names>
+            <surname>Lopez-Muazs</surname>
+          </string-name>
+          ,
+          <string-name>
+            <given-names>J. M.</given-names>
+            <surname>Gimeno</surname>
+          </string-name>
+          , and R. Gil.
+          <article-title>Publishing and Interacting with Linked Data Categories and Subject Descriptors</article-title>
+          . In 1st Int.
+          <article-title>Conference on Web Intelligence</article-title>
+          ,
+          <article-title>Mining and Semantics</article-title>
+          , WIMS?11,
+          <publisher-loc>Sogndal, Norway</publisher-loc>
+          ,
+          <year>2011</year>
+          .
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [5]
+          <string-name>
+            <given-names>A.</given-names>
+            <surname>Garrote</surname>
+          </string-name>
+          and
+          <string-name>
+            <given-names>M.</given-names>
+            <surname>Moreno Garac</surname>
+          </string-name>
+          .
+          <article-title>RESTful writable APIs for the web of Linked Data using relational storage solutions</article-title>
+          . In WWW2011 Workshop:
+          <article-title>Linked Data on the Web (LDOW2011)</article-title>
+          , Hyderabad,
+          <year>2011</year>
+          .
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [6]
+          <string-name>
+            <given-names>O.</given-names>
+            <surname>Hartig</surname>
+          </string-name>
+          ,
+          <string-name>
+            <given-names>C.</given-names>
+            <surname>Bizer</surname>
+          </string-name>
+          ,
+          <article-title>and J.-C. Freytag. Executing SPARQL Queries over the Web of Linked Data</article-title>
+          . In Proc. 8th International Semantic Web Conference (ESWC20099), Washington DC,
+          <publisher-name>USA</publisher-name>
+          ,
+          <year>2009</year>
+          .
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [7]
+          <string-name>
+            <given-names>T.</given-names>
+            <surname>Heath</surname>
+          </string-name>
+          and
+          <string-name>
+            <given-names>C.</given-names>
+            <surname>Bizer</surname>
+          </string-name>
+          .
+          <article-title>Linked Data: Evolving the Web into a Global Data Space</article-title>
+          . Synthesis Lectures on the Semantic Web: Theory and Technology,
+          <volume>1</volume>
+          :1.
+          <publisher-name>Morgan &amp; Claypool</publisher-name>
+          , 1st edition,
+          <year>2011</year>
+          .
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [8]
+          <string-name>
+            <given-names>J.</given-names>
+            <surname>Kotowski</surname>
+          </string-name>
+          and
+          <string-name>
+            <given-names>F.</given-names>
+            <surname>Bry</surname>
+          </string-name>
+          .
+          <article-title>A Perfect Match for Reasoning</article-title>
+          , Explanation, and Reason Maintenance: OWL 2 RL and Semantic Wikis. Proc. of the 5th Semantic Wiki Workshop (SemWiki
+          <year>2010</year>
+          ) at ESWC 2010,
+          <year>2010</year>
+          .
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [9]
+          <string-name>
+            <given-names>T.</given-names>
+            <surname>Kurz</surname>
+          </string-name>
+          ,
+          <string-name>
+            <given-names>S.</given-names>
+            <surname>Schaert</surname>
+          </string-name>
+          ,
+          <article-title>T. B urger</article-title>
+          , S. Stroka, and R. Sint.
+          <article-title>KiWi - A Platform for building Semantic Social Media Applications</article-title>
+          . In 9th Int. Semantic Web Conference (ISWC2010),
+          <year>2010</year>
+          .
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [10]
+          <string-name>
+            <given-names>K. R.</given-names>
+            <surname>Page</surname>
+          </string-name>
+          ,
+          <string-name>
+            <given-names>D. C.</given-names>
+            <surname>De Roure</surname>
+          </string-name>
+          , and K. Martinez.
+          <publisher-name>REST and Linked Data. ACM Press</publisher-name>
+          ,
+          <publisher-loc>New York</publisher-loc>
+          ,
+          <publisher-loc>New York, USA, Mar</publisher-loc>
+          .
+          <year>2011</year>
+          .
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [11]
+          <string-name>
+            <given-names>A.</given-names>
+            <surname>Passant</surname>
+          </string-name>
+          and
+          <string-name>
+            <given-names>P. N.</given-names>
+            <surname>Mendes</surname>
+          </string-name>
+          . sparqlPuSH :
+          <article-title>Proactive notication of data updates in RDF stores using PubSubHubbub</article-title>
+          . In Scripting for the Semantic Web Workshop SFSW2010 at
+          <fpage>ESWC2010</fpage>
+          ,
+          <year>2010</year>
+          .
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [12]
+          <string-name>
+            <given-names>S.</given-names>
+            <surname>Schaert</surname>
+          </string-name>
+          ,
+          <string-name>
+            <given-names>J.</given-names>
+            <surname>Eder</surname>
+          </string-name>
+          ,
+          <string-name>
+            <given-names>S.</given-names>
+            <surname>Gr</surname>
+          </string-name>
+          unwald,
+          <source>T. Kurz</source>
+          ,
+          <string-name>
+            <given-names>M.</given-names>
+            <surname>Radulescu</surname>
+          </string-name>
+          ,
+          <string-name>
+            <given-names>R.</given-names>
+            <surname>Sint</surname>
+          </string-name>
+          , and S. Stroka.
+          <article-title>KiWi - A Platform for Semantic Social Software</article-title>
+          . In Proc. of the 4th Semantic Wiki Workshop (SemWiki
+          <year>2009</year>
+          ), at ESWC 2009,
+          <year>2009</year>
+          .
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [13]
+          <string-name>
+            <given-names>J.</given-names>
+            <surname>Shinavier</surname>
+          </string-name>
+          . Ripple:
+          <article-title>Functional programs as linked data</article-title>
+          . In 3rd
+          <article-title>Workshop on Scripting for the Semantic Web</article-title>
+          ,
+          <publisher-loc>Innsbruck, Austria</publisher-loc>
+          ,
+          <year>2007</year>
+          .
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [14]
+          <article-title>W3 Consortium. XML Path Language (XPath)</article-title>
+          , November
+          <year>1999</year>
+          . http://www.w3.org/TR/xpath.
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [15]
+          <string-name>
+            <given-names>W3</given-names>
+            <surname>Consortium</surname>
+          </string-name>
+          . SPARQL 1.1
+          <string-name>
+            <surname>Federation</surname>
+            <given-names>Extensions</given-names>
+          </string-name>
+          (W3C Working Draft), June
+          <year>2010</year>
+          . http://www.w3.org/TR/sparql11-federated-query/.
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [16]
+          <string-name>
+            <given-names>W3</given-names>
+            <surname>Consortium</surname>
+          </string-name>
+          . Media Fragments URI 1.0 (W3C Working Draft), March
+          <year>2011</year>
+          . http://www.w3.org/TR/media-frags/.
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [17]
+          <string-name>
+            <given-names>W3</given-names>
+            <surname>Consortium</surname>
+          </string-name>
+          . Ontology for Media Resources 1.0 (W3C Candidate Recommendation), July
+          <year>2011</year>
+          . http://www.w3.org/TR/mediaont-
+          <fpage>10</fpage>
+          /.
+        </mixed-citation>
+      </ref>
+      <ref>
+        <mixed-citation>
+          [18]
+          <string-name>
+            <given-names>W3</given-names>
+            <surname>Consortium</surname>
+          </string-name>
+          . SPARQL 1.1
+          <string-name>
+            <surname>Query</surname>
+          </string-name>
+          (W3C Working Draft), May
+          <year>2011</year>
+          . http://www.w3.org/TR/sparql11-query/.
+        </mixed-citation>
+      </ref>
+    </ref-list>
+  </back>
+</article>
+
